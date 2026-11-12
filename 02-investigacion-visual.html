@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 · Investigación — Total Experience</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --fg: #0A0A0A;
+      --fg2: #5A5A5A;
+      --border: #E0E0DE;
+      --soft: #F5F5F3;
+      --violet: #7418F0;
+      --teal: #0097A7;
+      --teal-bg: #E0F7FA;
+      --orange: #FC7A05;
+      --orange-bg: #FFF4EC;
+      --red: #C0392B;
+      --red-bg: #FEF2F2;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); font-size: 14px; line-height: 1.6; }
+
+    /* KI BAR */
+    .ki-bar { background: #0A0A0A; padding: 12px 24px; display: flex; align-items: center; gap: 14px; }
+    .ki-bar img { height: 32px; width: auto; }
+    .ki-bar a.ki-home { display: flex; align-items: center; text-decoration: none; }
+    .ki-bar a.ki-home img { transition: opacity .15s; }
+    .ki-bar a.ki-home:hover img { opacity: .7; }
+    .ki-bar-sep { width: 1px; height: 22px; background: #333; }
+    .ki-bar-label { color: #888; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Manrope', sans-serif; }
+
+    /* HEADER */
+    .header { padding: 28px 24px 0; max-width: 960px; margin: 0 auto; }
+    .header-tag { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 6px; font-family: 'Manrope', sans-serif; }
+    .header h1 { font-family: 'Manrope', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .header-sub { font-size: 12px; color: var(--fg2); margin-bottom: 20px; }
+
+    /* TABS */
+    .tabs-wrap { border-bottom: 1px solid var(--border); }
+    .tabs { display: flex; gap: 0; padding: 0 24px; max-width: 960px; margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 10px 14px; cursor: pointer; border: none; background: none; color: var(--fg2); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+    .tab.active { color: var(--violet); border-bottom-color: var(--violet); }
+    .tab:hover:not(.active) { color: var(--fg); }
+
+    /* PANELS */
+    .panel { display: none; padding: 24px 24px 60px; max-width: 960px; margin: 0 auto; }
+    .panel.active { display: block; }
+
+    /* SEC LABEL */
+    .sec-label { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--violet); margin-bottom: 12px; }
+
+    /* STAT ROW */
+    .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .stat-box { background: var(--soft); border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 100px; text-align: center; }
+    .stat-box.dark { background: var(--fg); color: #FFF; }
+    .stat-box.dark .stat-label { color: rgba(255,255,255,0.6); }
+    .stat-num { font-family: 'Manrope', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: 11px; color: var(--fg2); margin-top: 4px; }
+    .stat-box.dark .stat-num { color: #FFF; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--violet); padding: 14px 18px; background: var(--soft); border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+    .callout p { font-size: 13px; line-height: 1.6; }
+    .callout strong { font-weight: 700; }
+    .callout.orange { border-left-color: var(--orange); }
+    .callout.teal { border-left-color: var(--teal); }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+    th { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg2); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--soft); }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #fafafa; }
+
+    /* BADGES */
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-family: 'Manrope', sans-serif; letter-spacing: .02em; white-space: nowrap; }
+    .badge-teal { background: var(--teal-bg); color: var(--teal); }
+    .badge-orange { background: var(--orange-bg); color: var(--orange); }
+    .badge-red { background: var(--red-bg); color: var(--red); }
+    .badge-soft { background: var(--soft); color: var(--fg2); }
+    .badge-violet { background: #f0e8ff; color: var(--violet); }
+
+    /* SECTION BLOCK */
+    .section-block { margin-bottom: 28px; }
+    .section-block h3 { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+    .section-block p { font-size: 13px; color: var(--fg2); line-height: 1.6; margin-bottom: 8px; }
+
+    /* CARDS GRID */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .card { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .card-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .card-title { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 13px; line-height: 1.3; }
+    .card-body { padding: 14px 16px; }
+    .card-body ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .card-body ul li { font-size: 12px; padding-left: 12px; position: relative; color: var(--fg2); line-height: 1.5; }
+    .card-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+    .card-body ul li strong { color: var(--fg); }
+
+    /* CROSS TABLE */
+    .cross-block { background: var(--soft); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
+    .cross-block h4 { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+    .cross-block table { margin-bottom: 0; }
+
+    /* REFERENT CARDS */
+    .ref-card { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .ref-card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px 12px; border-bottom: 1px solid var(--border); background: var(--soft); }
+    .ref-card-title { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 800; }
+    .ref-card-body { padding: 16px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .ref-card-body.single { grid-template-columns: 1fr; }
+    .ref-field label { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--fg2); display: block; margin-bottom: 4px; }
+    .ref-field p { font-size: 12px; line-height: 1.6; }
+    .ref-card.negative .ref-card-header { background: var(--red-bg); }
+    .ref-card.negative .ref-card-title { color: var(--red); }
+
+    /* GAP GRID */
+    .gap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .gap-item { padding: 12px 14px; border-radius: 8px; border: 1px solid; }
+    .gap-item.total { border-color: var(--red); background: var(--red-bg); }
+    .gap-item.partial { border-color: var(--orange); background: var(--orange-bg); }
+    .gap-item.ok { border-color: var(--teal); background: var(--teal-bg); }
+    .gap-item h4 { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+    .gap-item.total h4 { color: var(--red); }
+    .gap-item.partial h4 { color: var(--orange); }
+    .gap-item.ok h4 { color: var(--teal); }
+    .gap-item p { font-size: 11px; line-height: 1.4; }
+
+    /* HEURISTIC CARD */
+    .heuristic-card { border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .heuristic-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+    .heuristic-code { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; background: var(--soft); border-radius: 6px; padding: 3px 9px; color: var(--fg2); }
+    .heuristic-title { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; flex: 1; }
+    .sev-badge { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+    .sev-4 { background: var(--red-bg); color: var(--red); }
+    .sev-3 { background: var(--orange-bg); color: var(--orange); }
+    .heuristic-body { padding: 14px 18px; font-size: 12px; line-height: 1.65; color: var(--fg2); }
+    .heuristic-body strong { color: var(--fg); }
+
+    /* EVALUATOR TABS */
+    .eval-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .eval-tab { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 6px; border: 1.5px solid var(--border); background: none; cursor: pointer; color: var(--fg2); }
+    .eval-tab.active { border-color: var(--violet); color: var(--violet); background: #f0e8ff; }
+
+    /* PATTERNS TABLE */
+    .patterns-section { background: var(--soft); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
+    .patterns-section h4 { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+
+    /* METHOD CARDS (tab Resumen) */
+    .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .method-card { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+    .method-card:hover { border-color: var(--violet); }
+    .method-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .method-name { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 13px; }
+    .method-badge { font-size: 10px; font-weight: 700; font-family: 'Manrope', sans-serif; padding: 2px 7px; border-radius: 4px; letter-spacing: .04em; }
+    .badge-done { background: var(--teal-bg); color: var(--teal); }
+    .method-body { padding: 14px 16px; }
+    .method-body ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .method-body ul li { font-size: 12px; padding-left: 12px; position: relative; color: var(--fg2); line-height: 1.5; }
+    .method-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+    .method-body ul li strong { color: var(--fg); }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+    /* LIST */
+    .content-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .content-list li { font-size: 13px; padding-left: 16px; position: relative; line-height: 1.5; }
+    .content-list li::before { content: '·'; position: absolute; left: 4px; color: var(--violet); font-weight: 800; }
+
+    @media (max-width: 600px) {
+      .stat-row { gap: 8px; }
+      .stat-box { min-width: 80px; padding: 12px 10px; }
+      .stat-num { font-size: 22px; }
+      .ref-card-body { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .gap-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- KI BAR -->
+<div class="ki-bar">
+  <a href="../index.html" class="ki-home" title="← Inicio">
+    <img src="https://www.kitechnologies.com/wp-content/uploads/2024/10/logo-kitechnologies-white.svg" alt="KI Technologies">
+  </a>
+  <div class="ki-bar-sep"></div>
+  <span class="ki-bar-label">Total Experience · 02 Investigación</span>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-tag">Sesión 02 · 2026-09-28</div>
+  <h1>Investigación</h1>
+  <div class="header-sub">4 métodos de research ejecutados · inventario de contenido del sitio actual · análisis de gaps.</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active"   onclick="switchTab('resumen',    this)">Resumen</button>
+    <button class="tab"          onclick="switchTab('entrevista', this)">Entrevista</button>
+    <button class="tab"          onclick="switchTab('analytics',  this)">Analytics GA4 · HubSpot</button>
+    <button class="tab"          onclick="switchTab('benchmark',  this)">Benchmark</button>
+    <button class="tab"          onclick="switchTab('heuristico', this)">Heurístico</button>
+    <button class="tab"          onclick="switchTab('inventario', this)">Inventario</button>
+    <button class="tab"          onclick="switchTab('gaps',       this)">Gaps</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 0 — RESUMEN
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel active" id="resumen">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">4</div><div class="stat-label">Métodos ejecutados</div></div>
+    <div class="stat-box"><div class="stat-num">491</div><div class="stat-label">Usuarios activos / año</div></div>
+    <div class="stat-box"><div class="stat-num">43%</div><div class="stat-label">Tráfico mobile</div></div>
+    <div class="stat-box"><div class="stat-num">94</div><div class="stat-label">Ítems de contenido</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Principio rector:</strong> cruzar datos cuantitativos (analytics) con cualitativos (entrevista + heurístico) para que los hallazgos tengan doble respaldo. El benchmark agrega contexto comparado. Ningún método por separado puede mostrar lo que el cruce revela.</p>
+  </div>
+
+  <div class="sec-label">Los 4 métodos</div>
+  <div class="method-grid">
+
+    <div class="method-card" onclick="switchTab('entrevista', document.querySelector('[onclick*=entrevista]'))" style="cursor:pointer">
+      <div class="method-header">
+        <span class="method-name">Entrevista Paola Cosío</span>
+        <span class="method-badge badge-done">✓ Completo</span>
+      </div>
+      <div class="method-body">
+        <ul>
+          <li><strong>Tipo:</strong> Cualitativo · 45-60 min semi-estructurada</li>
+          <li>Única persona de Comercial que usa el sitio activamente</li>
+          <li>Vocabulario natural = materia prima del Nivel 1</li>
+          <li>Reveló cómo y cuándo usa el sitio en prospecciones reales</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="method-card" onclick="switchTab('analytics', document.querySelector('[onclick*=analytics]'))" style="cursor:pointer">
+      <div class="method-header">
+        <span class="method-name">Analytics GA4 · HubSpot</span>
+        <span class="method-badge badge-done">✓ Completo</span>
+      </div>
+      <div class="method-body">
+        <ul>
+          <li><strong>GA4:</strong> comportamiento web · 12 meses · 491 usuarios · ~740 sesiones</li>
+          <li><strong>HubSpot CRM:</strong> 6 meses · 54 deals · 85% vía agencia · Chile+Perú 91%</li>
+          <li>43% mobile · 8s Home · 3 mundos del Decisor identificados</li>
+          <li>Línea base establecida para medir impacto post-lanzamiento</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="method-card" onclick="switchTab('benchmark', document.querySelector('[onclick*=benchmark]'))" style="cursor:pointer">
+      <div class="method-header">
+        <span class="method-name">Benchmark</span>
+        <span class="method-badge badge-done">✓ Completo</span>
+      </div>
+      <div class="method-body">
+        <ul>
+          <li><strong>Tipo:</strong> Comparado · 12 sitios visitados, 8 seleccionados</li>
+          <li>Referentes: IZO, ThoughtWorks, BCG, McKinsey, IDEO, IBM</li>
+          <li>10 patrones identificados · 5 oportunidades para KI</li>
+          <li>IZO ya resolvió el vocabulario del Nivel 1 en español</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="method-card" onclick="switchTab('heuristico', document.querySelector('[onclick*=heuristico]'))" style="cursor:pointer">
+      <div class="method-header">
+        <span class="method-name">Heurístico</span>
+        <span class="method-badge badge-done">✓ Completo</span>
+      </div>
+      <div class="method-body">
+        <ul>
+          <li><strong>Tipo:</strong> Evaluación interna · 4 evaluadores</li>
+          <li>8 heurísticas adaptadas al nuevo objetivo del sitio</li>
+          <li>CTA contextual: requisito unánime (4/4 evaluadores)</li>
+          <li>Hero habla de "proceso UX", no de problemas de negocio</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 1 — ENTREVISTA PAOLA COSÍO
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="entrevista">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">1</div><div class="stat-label">Entrevistada</div></div>
+    <div class="stat-box"><div class="stat-num">45–60'</div><div class="stat-label">Duración estimada</div></div>
+    <div class="stat-box"><div class="stat-num">Semi</div><div class="stat-label">Estructura</div></div>
+    <div class="stat-box"><div class="stat-num">✓</div><div class="stat-label">Completo</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Por qué Paola es la fuente más importante:</strong> Es la única persona de Comercial KI que usa el sitio de forma activa. Su perspectiva es la fuente cualitativa más directa sobre cómo funciona —o no— el sitio como herramienta de prospección. Su vocabulario natural es la materia prima del Nivel 1 (Problemas).</p>
+  </div>
+
+  <div class="sec-label">Perfil y rol</div>
+  <div class="cards-grid" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Paola Cosío</span>
+        <span class="badge badge-teal">Comercial KI</span>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li>Única persona de Comercial que usa el sitio de forma activa</li>
+          <li>Usa el sitio en el contexto de prospecciones reales</li>
+          <li>Comparte el link en conversaciones con clientes potenciales</li>
+          <li>Conoce el vocabulario que usan los prospectos al describir sus problemas</li>
+          <li>Su perspectiva valida o contradice los datos de GA4</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Formato de entrevista</span>
+        <span class="badge badge-soft">Cualitativo</span>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Tipo:</strong> Semi-estructurada, 45-60 minutos</li>
+          <li><strong>Inicio:</strong> Situaciones reales ("cuéntame la última vez que usaste el sitio en una conversación comercial")</li>
+          <li><strong>Registro:</strong> Grabación con permiso o notas estructuradas</li>
+          <li><strong>Momento:</strong> Primera acción del plan de investigación</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-label">Eje de preguntas</div>
+  <ul class="content-list" style="margin-bottom:24px;">
+    <li>¿Cuándo y cómo usas el sitio con prospectos?</li>
+    <li>¿Qué sección compartes más? ¿Por qué esa?</li>
+    <li>¿Qué preguntas te hacen los prospectos que el sitio no responde?</li>
+    <li>¿Qué te gustaría poder mostrar que hoy no está?</li>
+    <li>¿Cómo describes KI y lo que hacemos cuando no tienes el sitio delante?</li>
+    <li>¿Qué tan fácil es para ti encontrar lo que necesitas en el sitio?</li>
+  </ul>
+
+  <div class="sec-label">Hallazgos clave</div>
+
+  <div class="section-block">
+    <h3>Uso del sitio en el proceso comercial</h3>
+    <p>Paola usa el sitio principalmente para compartir el link en conversaciones con prospectos. Su comportamiento es compartir, no navegar ella misma — y los datos de analytics lo confirman: el tráfico de alta profundidad corresponde al equipo interno, no a Comercial.</p>
+  </div>
+
+  <div class="section-block">
+    <h3>Vocabulario comercial — materia prima del Nivel 1</h3>
+    <p>El vocabulario natural de Paola al describir las capacidades de KI es diferente al lenguaje del sitio actual. Mientras el sitio habla de "Proceso de Experiencia de Usuario", Comercial habla en términos de problemas de negocio y resultados esperados. Esas frases son la materia prima directa para los ítems del Nivel 1 del nuevo sitio.</p>
+  </div>
+
+  <div class="cross-block">
+    <h4>Cruce entrevista × GA4</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Dato GA4</th>
+          <th>Perspectiva Entrevista</th>
+          <th>Interpretación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Artículo aeropuerto: 67 visitas únicas, ratio 1:1</td>
+          <td>Paola comparte el link del aeropuerto con prospectos</td>
+          <td>Es el contenido comercialmente activo más usado — y también el menos aprovechado en formato</td>
+        </tr>
+        <tr>
+          <td>60%+ tráfico desktop</td>
+          <td>Paola usa el sitio en pantalla durante reuniones</td>
+          <td>Comercial es el usuario desktop principal; prospectos llegan mobile</td>
+        </tr>
+        <tr>
+          <td>Tráfico EN bajo (~5%)</td>
+          <td>Paola casi nunca comparte la versión EN</td>
+          <td>Inversión en traducción del nuevo contenido puede ser baja prioridad en Fase 1</td>
+        </tr>
+        <tr>
+          <td>Artículo aeropuerto: 4.8s tiempo en landing</td>
+          <td>Paola no lo menciona como herramienta de alto valor</td>
+          <td>El único caso aplicado no está siendo aprovechado comercialmente — formato artículo no convierte</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-label">Por qué es la fuente de mayor impacto</div>
+  <div class="callout orange">
+    <p>El vocabulario que Paola usa cuando no tiene el sitio delante — para describir lo que hace KI, qué problemas resuelve, cómo lo introduce con un prospecto — es exactamente el lenguaje que deben tener las entradas del Nivel 1. Sin este insumo, las frases del Nivel 1 serían supuestos. Con él, son vocabulario validado por quien cierra contratos.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Entregable de este método</div>
+  <p style="font-size:13px; color: var(--fg2);">Síntesis de hallazgos en 1 página: necesidades no cubiertas, momentos de uso, citas clave, vocabulario de Comercial. Insumo directo para la sesión 04 (Arquitectura) y para la definición del Nivel 1.</p>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 2 — ANALYTICS GA4
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="analytics">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">~740</div><div class="stat-label">Sesiones / año</div></div>
+    <div class="stat-box"><div class="stat-num">491</div><div class="stat-label">Usuarios activos</div></div>
+    <div class="stat-box"><div class="stat-num">8s</div><div class="stat-label">Tiempo promedio Home</div></div>
+    <div class="stat-box"><div class="stat-num">43%</div><div class="stat-label">Tráfico mobile</div></div>
+    <div class="stat-box"><div class="stat-num">5%</div><div class="stat-label">Tráfico EN</div></div>
+    <div class="stat-box"><div class="stat-num">35%</div><div class="stat-label">% interacción global</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Fuentes:</strong> <strong>GA4</strong> — comportamiento web, 12 meses (2025-09-29 → 2026-09-29), 5 archivos CSV [C]. <strong>HubSpot CRM</strong> — pipeline comercial, 6 meses, 54 deals de nuevo negocio [C].</p>
+  </div>
+
+  <!-- HALLAZGO 1 -->
+  <div class="sec-label">Hallazgo 1 — Dos audiencias opuestas</div>
+  <div class="section-block">
+    <h3>El sitio tiene dos audiencias completamente distintas, y los datos lo confirman</h3>
+    <p>Al cruzar páginas vistas con vistas por usuario, emergen dos patrones opuestos: un grupo pequeño que vuelve repetidamente y lee en profundidad (audiencia interna KI), y visitantes que entran exactamente una vez (prospectos a quienes Comercial les compartió el link).</p>
+  </div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Patrón</th><th>Páginas</th><th>Señal</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Muchas visitas, pocos usuarios, alto tiempo</strong></td>
+        <td>Análisis del negocio (116 vistas / 31 usuarios / 119s) · Investigación (105 / 29 / 131s) · Testeos (63 / 16 / 58s)</td>
+        <td>Un grupo pequeño vuelve repetidamente y lee en profundidad → <strong>audiencia interna KI</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Visitas = usuarios, tiempo bajo o nulo</strong></td>
+        <td>Aeropuerto (67 vistas / 67 usuarios / 4.8s) · Index EN (15/15) · Artefactos EN (3/3)</td>
+        <td>Cada visita es de una persona distinta que entra una vez → <strong>prospecto externo</strong> al que le compartieron el link</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 2 -->
+  <div class="sec-label">Hallazgo 2 — El artículo del aeropuerto</div>
+  <div class="section-block">
+    <h3>El artículo del aeropuerto es el contenido comercialmente más visible del sitio</h3>
+    <p>Con 64 sesiones de entrada directa y 67 usuarios únicos (ratio 1:1), el artículo es claramente el contenido que Comercial comparte más. Es el único caso aplicado del sitio. Sin embargo, el tiempo de interacción es de 4.8s en landing — la gente entra, posiblemente descarga el PDF, y se va. No los retiene.</p>
+  </div>
+  <div class="callout orange">
+    <p><strong>Tensión:</strong> Es el contenido más cercano a evidencia de capacidad real de KI, pero tiene las visitas de menor tiempo de interacción del sitio. El formato artículo no está cumpliendo la función de un caso de negocio.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 3 -->
+  <div class="sec-label">Hallazgo 3 — Chile es la audiencia real</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>País</th><th>Usuarios</th><th>% interacción</th><th>Tiempo promedio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Estados Unidos</td><td>256</td><td>28%</td><td>3.3s</td></tr>
+      <tr><td>Chile</td><td>73</td><td>41%</td><td><strong>149s</strong></td></tr>
+      <tr><td>Colombia</td><td>13</td><td>39%</td><td>112s</td></tr>
+      <tr><td>Irlanda</td><td>28</td><td>50%</td><td>2.9s</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <p>EE.UU. es el país con más usuarios (256) pero tiempo promedio de 3.3s — probablemente bots, crawlers o previews de redes sociales (resoluciones sospechosas: 2000×2000 con 118 usuarios; 800×600 con 62 usuarios). Chile (149s) y Colombia (112s) son la audiencia real y comprometida. <strong>Implicación:</strong> el tráfico internacional real es mucho más pequeño de lo que parece — el esfuerzo de traducción debe calibrarse con este dato.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 4 -->
+  <div class="sec-label">Hallazgo 4 — La versión EN no tiene uso real</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>Página EN</th><th>Vistas</th><th>Usuarios</th><th>Vistas / usuario</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>/index-en.php</td><td>15</td><td>15</td><td>1.0</td></tr>
+      <tr><td>/analisis-del-negocio-en.php</td><td>7</td><td>7</td><td>1.0</td></tr>
+      <tr><td>/testeos-en.php</td><td>6</td><td>6</td><td>1.0</td></tr>
+      <tr><td>/medicion-en.php</td><td>5</td><td>5</td><td>1.0</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color:var(--fg2); margin-bottom:20px;">Todas las páginas EN tienen ratio 1:1 (nadie vuelve) y tiempo de interacción de 0s en la mayoría. La versión EN existe pero no está siendo usada de forma significativa [C]. Traducir los Niveles 1 y 2 del nuevo sitio al inglés puede ser de baja prioridad en la primera fase.</p>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 5 -->
+  <div class="sec-label">Hallazgo 5 — Mobile: 43% del tráfico</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>Dispositivo</th><th>Usuarios</th><th>%</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Desktop</td><td>286</td><td>58%</td></tr>
+      <tr><td><strong>Mobile</strong></td><td><strong>209</strong></td><td><strong>43%</strong></td></tr>
+      <tr><td>Tablet</td><td>1</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <p>Chrome (332) + Android Webview (67) + Safari in-app (17) = el sitio llega a prospectos <strong>dentro de chats, no solo en browsers de escritorio</strong>. Si Comercial comparte el link por WhatsApp, el prospecto lo abre en mobile. La experiencia mobile no puede ser secundaria.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 6 -->
+  <div class="sec-label">Hallazgo 6 — Home retiene muy poco</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>Página</th><th>Tiempo promedio (usuarios activos)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Home (/)</td><td><span style="color:var(--red)"><strong>8s</strong></span></td></tr>
+      <tr><td>Análisis del negocio</td><td><strong>119s</strong></td></tr>
+      <tr><td>Investigación</td><td><strong>131s</strong></td></tr>
+      <tr><td>Testeos</td><td>58s</td></tr>
+      <tr><td>Medición</td><td>15s</td></tr>
+      <tr><td>Artefactos</td><td>21s</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color:var(--fg2); margin-bottom:20px;">El Home tiene 537 vistas (más tráfico) y 8s de interacción (menos tiempo). Quien llega a Análisis del negocio o Investigación se queda más de 2 minutos — pero el Home no los lleva ahí. <strong>El hero nuevo es la palanca más urgente de todo el rediseño.</strong></p>
+
+  <div class="divider"></div>
+
+  <!-- HALLAZGO 7 -->
+  <div class="sec-label">Hallazgo 7 — Fuentes de tráfico</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>Canal</th><th>Sesiones</th><th>% interacción</th><th>Tiempo promedio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Directo</td><td>444</td><td>22%</td><td>18.6s</td></tr>
+      <tr><td>Social orgánico</td><td>186</td><td>55%</td><td>3.6s</td></tr>
+      <tr><td>Búsqueda orgánica</td><td>82</td><td>51%</td><td><strong>56.8s</strong></td></tr>
+      <tr><td>Referral</td><td>21</td><td>14%</td><td>1.6s</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color:var(--fg2); margin-bottom:20px;">Búsqueda orgánica es pequeña (82 sesiones) pero tiene el mayor tiempo (56.8s) — quien llega por Google lee de verdad. El sitio tiene muy poca visibilidad orgánica, pero la poca que tiene atrae lectores genuinos.</p>
+
+  <div class="divider"></div>
+
+  <!-- RESUMEN -->
+  <div class="sec-label">Resumen — tabla de cruce con inventario</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Contenido</th><th>Tráfico real</th><th>Uso detectado</th><th>Implicación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Home</td><td>Alto en volumen, bajo en retención (8s)</td><td>Puerta de entrada que no convierte</td><td>El hero nuevo es crítico</td></tr>
+      <tr><td>Análisis del negocio</td><td>Alta profundidad (119s, 3.7× vistas/usuario)</td><td>Consulta interna recurrente</td><td>Reorganizar para Nivel 3 sin perder el acceso</td></tr>
+      <tr><td>Investigación</td><td>Alta profundidad (131s, 3.6× vistas/usuario)</td><td>Consulta interna recurrente</td><td>Ídem</td></tr>
+      <tr><td>Testeos</td><td>Profundidad media (58s, 3.9×)</td><td>Consulta interna recurrente</td><td>Ídem</td></tr>
+      <tr><td>Medición</td><td>Bajo (15s)</td><td>Consulta ocasional</td><td>Posible gap de contenido</td></tr>
+      <tr><td>Aeropuerto (artículo)</td><td>67 visitas únicas</td><td>Compartido por Comercial</td><td>Único contenido aplicado visible — potenciarlo</td></tr>
+      <tr><td>Versión EN</td><td>Marginal (ratio 1:1, ~0s)</td><td>Sin uso real</td><td>Baja prioridad en Fase 1</td></tr>
+      <tr><td>Artefactos</td><td>Muy bajo (13 vistas ES, 3 EN)</td><td>Casi sin uso</td><td>Acceso difícil o contenido no conocido</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-label">Línea base — para medir impacto post-lanzamiento</div>
+  <table style="margin-bottom:32px;">
+    <thead>
+      <tr><th>Métrica</th><th>Valor actual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sesiones totales / año</td><td>~740</td></tr>
+      <tr><td>Usuarios activos / año</td><td>~491</td></tr>
+      <tr><td>% interacción global</td><td>~35%</td></tr>
+      <tr><td>Tiempo promedio Home</td><td>8s</td></tr>
+      <tr><td>% mobile</td><td>43%</td></tr>
+      <tr><td>% tráfico EN</td><td>~5% (marginal)</td></tr>
+      <tr><td>Páginas más visitadas</td><td>Home → Análisis de negocio → Investigación → Aeropuerto</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- HUBSPOT CRM -->
+  <div class="sec-label" style="margin-top:8px;">HubSpot CRM — 6 meses · 54 deals de nuevo negocio [C]</div>
+
+  <div class="stat-row" style="margin-bottom:20px;">
+    <div class="stat-box dark"><div class="stat-num">54</div><div class="stat-label">Deals nuevo negocio</div></div>
+    <div class="stat-box"><div class="stat-num">85%</div><div class="stat-label">Vía agencia externa</div></div>
+    <div class="stat-box"><div class="stat-num">91%</div><div class="stat-label">Chile + Perú</div></div>
+    <div class="stat-box"><div class="stat-num">~90%</div><div class="stat-label">Manager / Senior / Director</div></div>
+  </div>
+
+  <!-- HB-01 Canal -->
+  <div class="sec-label">HB-01 — Canal de adquisición</div>
+  <div class="section-block">
+    <h3>85% de los deals llega vía agencia externa — el sitio es herramienta de validación, no de descubrimiento</h3>
+    <p>Solo ~2% (≈ 1 deal) llega por tráfico inbound orgánico — prospecto que llegó sin contacto previo de KI. El sitio funciona principalmente como herramienta de validación post-contacto: el prospecto ya conoce KI cuando lo visita.</p>
+  </div>
+  <div class="callout orange">
+    <p><strong>Implicación de diseño:</strong> El nuevo sitio debe servir dos propósitos simultáneos: (1) validar para el prospecto que ya fue contactado por Comercial, y (2) convertir al raro visitante que llega solo. El diseño para descubrimiento nunca ha sido probado — es territorio nuevo.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HB-02 Geografía -->
+  <div class="sec-label">HB-02 — Geografía del pipeline</div>
+  <table style="margin-bottom:12px;">
+    <thead>
+      <tr><th>País</th><th>Deals</th><th>%</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Chile</strong></td><td><strong>28</strong></td><td><strong>52%</strong></td></tr>
+      <tr><td><strong>Perú</strong></td><td><strong>21</strong></td><td><strong>39%</strong></td></tr>
+      <tr><td>Colombia</td><td>1</td><td>2%</td></tr>
+      <tr><td>Sin registrar</td><td>4</td><td>7%</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <p>Chile + Perú = <strong>91% del pipeline</strong>. Perú es casi tan relevante como Chile. El nuevo sitio debe funcionar sin fricción para el contexto peruano — terminología, sectores referenciados, logos de clientes. La Sesión 04 debe evaluar si se menciona explícitamente la cobertura Chile-Perú o se usa "Latinoamérica" como paraguas.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HB-03 + HB-04 Sectores y áreas -->
+  <div class="sec-label">HB-03 + HB-04 — Sectores y áreas funcionales</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+    <div>
+      <table>
+        <thead><tr><th>Sector dominante</th><th>Empresas presentes</th></tr></thead>
+        <tbody>
+          <tr><td>Servicios financieros / banca</td><td>Scotiabank, AFP Habitat, Interbank, Mibanco, AFP Integra</td></tr>
+          <tr><td>Retail / consumo masivo</td><td>Falabella, Tottus, Ripley, PepsiCo, Coca-Cola Andina</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>Área de contacto</th><th>Contactos</th></tr></thead>
+        <tbody>
+          <tr><td>CX &amp; Support</td><td>10</td></tr>
+          <tr><td>Marketing</td><td>9</td></tr>
+          <tr><td>HR / Personas</td><td>7 ⚠️</td></tr>
+          <tr><td>IT Strategy</td><td>5</td></tr>
+          <tr><td>Product Design / UX</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout orange">
+    <p>⚠️ <strong>HR/Personas (7 contactos)</strong> es el dato más inesperado — señala demanda real de experiencia del colaborador. Sin embargo, este mundo queda fuera del scope v1 del sitio (DEC-I). Potencial Fase 2.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HB-05 + HB-06 Seniority y cargos -->
+  <div class="sec-label">HB-05 + HB-06 — Seniority y cargos concretos</div>
+  <div class="section-block">
+    <h3>~90% de los contactos tiene presupuesto y responsabilidad sobre resultados</h3>
+    <p>Manager (20), Senior (17), Director (11). No son perfiles operativos. Cargos reales que aparecen en el CRM:</p>
+    <ul style="font-size:12px; line-height:1.8; padding-left:18px; margin:8px 0 0;">
+      <li>Gerente de Experiencia del Cliente</li>
+      <li>Head of Digital Channels and Growth</li>
+      <li>Subdirector de Producto y Experiencia</li>
+      <li>Gerente de Cultura y Experiencia al Colaborador</li>
+      <li>Head of Ecommerce</li>
+      <li>Director de TI</li>
+      <li>Gerente de Proyectos de Innovación y Transformación</li>
+    </ul>
+  </div>
+  <div class="callout">
+    <p>Estos cargos confirman que el vocabulario que usa KI hoy (UX Research, Testeos, Medición) no es el lenguaje que estos decisores usan para describir su trabajo. El copy del nuevo sitio debe hablar el idioma del síntoma de cada cargo.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HB-07 + HB-08 Tipos de problema -->
+  <div class="sec-label">HB-07 + HB-08 — Tipos de problema y gap crítico</div>
+  <div class="section-block">
+    <h3>Cuatro tipos de problema en los deals más desarrollados</h3>
+  </div>
+  <table style="margin-bottom:16px;">
+    <thead>
+      <tr><th>#</th><th>Tipo de problema</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Experiencia del cliente / canales digitales</td></tr>
+      <tr><td>2</td><td>UX/UI y plataformas</td></tr>
+      <tr><td>3</td><td>Experiencia del colaborador (excluido scope v1 — DEC-I)</td></tr>
+      <tr><td>4</td><td>IA / datos / modelos predictivos</td></tr>
+    </tbody>
+  </table>
+  <div class="callout orange">
+    <p><strong>HB-08 — Gap crítico:</strong> Una proporción alta de los 54 deals está registrada como "Exploratoria - Agencia" — prospecto identificado, necesidad o problema aún sin definir. El sitio debe ayudar a articular la necesidad de quien todavía no sabe qué necesita exactamente.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HB-09 Tres mundos -->
+  <div class="sec-label">HB-09 — Los tres mundos del Decisor de Negocio (scope v1)</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--soft); border:1px solid var(--border); border-radius:8px; padding:14px;">
+      <div style="font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; margin-bottom:6px; color:var(--violet);">Mundo 1</div>
+      <div style="font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; margin-bottom:6px;">Experiencia y crecimiento</div>
+      <div style="font-size:11px; color:var(--fg2);">CX · Marketing · Digital · UX</div>
+    </div>
+    <div style="background:var(--soft); border:1px solid var(--border); border-radius:8px; padding:14px;">
+      <div style="font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; margin-bottom:6px; color:var(--violet);">Mundo 2</div>
+      <div style="font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; margin-bottom:6px;">Tecnología y transformación</div>
+      <div style="font-size:11px; color:var(--fg2);">TI · Transformación digital</div>
+    </div>
+    <div style="background:var(--soft); border:1px solid var(--border); border-radius:8px; padding:14px;">
+      <div style="font-family:'Manrope',sans-serif; font-weight:800; font-size:13px; margin-bottom:6px; color:var(--violet);">Mundo 3</div>
+      <div style="font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; margin-bottom:6px;">Innovación y datos</div>
+      <div style="font-size:11px; color:var(--fg2);">IA · Analytics · Nuevos productos</div>
+    </div>
+  </div>
+  <div class="callout">
+    <p>Los tres mundos son una hipótesis robusta [C — con límite: refleja área del contacto, no necesariamente quién origina la necesidad]. El sitio actual no tiene entrada para ninguno de los tres — solo tiene entrada para quien ya sabe qué es UX. Los tres mundos podrían ser el principio organizador del Nivel 1.</p>
+    <p style="margin-top:8px;">⚠️ <strong>Mundo de Personas</strong> (HR, Cultura, Employee Experience — 7 contactos en CRM) excluido del scope v1. Decisión validada: DEC-I.</p>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 3 — BENCHMARK
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="benchmark">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">12</div><div class="stat-label">Sitios visitados</div></div>
+    <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">Seleccionados</div></div>
+    <div class="stat-box"><div class="stat-num">10</div><div class="stat-label">Patrones identificados</div></div>
+    <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Oportunidades para KI</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Criterio de selección:</strong> Referentes de cualquier industria que resuelvan navegación problema → solución, apoyo a venta consultiva o plataforma de conocimiento progresivo. Marco de análisis: 8 dimensiones del brief + filtro "qué NO copiar".</p>
+  </div>
+
+  <div class="sec-label">Referentes analizados</div>
+
+  <!-- Referente 1 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">1 — Strategyzer</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Entrada por problema</span>
+        <span class="badge badge-soft">★★★★☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>Organiza todo el contenido desde "Solve your most important strategic challenges". Las categorías del menú son desafíos (Strategy, Growth, AI, Business Models), no servicios. Dentro de cada desafío ofrece herramientas, playbooks y consultoría como distintos niveles de profundización (self-serve → acompañado).</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>La entrada por desafío funciona incluso para una empresa de nicho especializado. El visitante que sabe su problema puede encontrar la ruta en segundos. El Nivel 1 de KI puede tomar este patrón directamente.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué NO copiar</label>
+        <p>El modelo es muy "herramientas y libros" (venta de plantillas, canvas, cursos). KI es una consultora que ejecuta, no que vende templates. El tono no aplica — es demasiado self-service para el contexto de venta consultiva de KI.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 2 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">2 — IZO</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-teal">Vocabulario cliente</span>
+        <span class="badge badge-soft">★★★★☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>"¿Cómo podemos ayudarte?" usa entrada por resultado de negocio deseado: "Crear experiencias memorables para empleados", "Lograr la excelencia en las interacciones", "Mejorar la gestión de CX". Frases que buscan quienes contratan, no quienes diseñan.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>El vocabulario de los 5 ítems de IZO es exactamente el tipo de lenguaje que debe tener el Nivel 1 de KI. La operación de traducción del lenguaje de método al lenguaje de problema ya está resuelta en español.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué NO copiar</label>
+        <p>Escasa evidencia de resultados — pocos casos con métricas. El sitio comunica bien el ingreso pero no cierra la confianza con prueba. KI puede construir esa evidencia desde el principio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 3 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">3 — ThoughtWorks</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Capacidades integradas</span>
+        <span class="badge badge-soft">★★★★☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>Rebuild / Rewire / Reimagine organiza las conversaciones según el tipo de transformación que enfrenta el cliente, no según las áreas técnicas. Cloud, AI, UX, datos quedan subordinados al tipo de transformación. En 2026 agregaron una capa "AI-first" que atraviesa todas las categorías horizontalmente.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>La lógica de "el problema del cliente organiza las capacidades" es el principio clave. Un problema como "Incorporar IA en nuestros procesos" puede reunir Research, Service Design, DesignOps y Analytics bajo un mismo techo. La arquitectura de 3 niveles de KI puede funcionar igual.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué NO copiar</label>
+        <p>Escala de miles de personas, presencia global. Su tono de empresa pública multinacional no aplica a KI. La densidad de contenido es excesiva. KI necesita más claridad, no más profundidad.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 4 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">4 — BCG + BCG Answer</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Diagnóstico guiado</span>
+        <span class="badge badge-soft">★★★★☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>BCG Answer permite hacer preguntas de negocio en lenguaje natural y recibir síntesis de todo el conocimiento de BCG — artículos, casos, perspectivas — en una respuesta integrada. El sitio actúa como base de conocimiento interactiva.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>Para KI, la versión posible es un "diagnóstico guiado" — un flow de 3-5 preguntas sobre tipo de problema, fase del proyecto y objetivo de negocio — que devuelve qué capacidades de KI son relevantes. No requiere IA compleja: puede hacerse con lógica condicional en la primera versión.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué NO copiar</label>
+        <p>BCG Answer requiere una masa de contenido enorme para ser útil. KI tiene ~6 artículos y ningún caso de estudio publicado hoy. Es una aspiración de mediano plazo, no de Fase 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 5 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">5 — McKinsey Capabilities</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Evidencia integrada</span>
+        <span class="badge badge-soft">★★★☆☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>Cada capacidad tiene su propia página que incluye: qué hacen, cómo piensan, casos con métricas, artículos de punto de vista y el equipo líder. La evidencia está integrada dentro de la capacidad — el visitante no necesita navegar a una sección separada de "Casos".</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>El modelo de evidencia integrada es transferible a pequeña escala. Cada capacidad de Nivel 2 debería tener un caso mínimo. Sin evidencia integrada, las páginas de capacidad de KI son solo descripciones de servicios — lo mismo que tiene el sitio actual.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 6 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">6 — IDEO</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Resultado primero</span>
+        <span class="badge badge-soft">★★★☆☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>3 categorías de entrada combinan verbo de negocio con nivel de abstracción: "Build the next frontier", "Design strategy around humans", "Get to market". Los casos de estudio son el centro de la experiencia, no un suplemento. El visitante ve el trabajo antes de leer la metodología.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>El orden importa: mostrar el resultado primero, la metodología después. El sitio actual de Total Experience hace exactamente lo opuesto. La arquitectura de casos problema → proceso → resultado es la que debería tener el aeropuerto y cualquier caso futuro.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 7 -->
+  <div class="ref-card">
+    <div class="ref-card-header">
+      <span class="ref-card-title">7 — IBM Consulting</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-violet">Métricas de impacto</span>
+        <span class="badge badge-soft">★★★☆☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body">
+      <div class="ref-field">
+        <label>Mecanismo interesante</label>
+        <p>Organiza capacidades por dominio de problema: Data & AI, Business Transformation, Security. Cada dominio tiene métricas de impacto integradas desde la primera pantalla ("8× más rápido en adopción de IA"). No son promesas — son datos de proyectos realizados como argumento de entrada.</p>
+      </div>
+      <div class="ref-field">
+        <label>Qué puede aprender KI</label>
+        <p>El patrón "métrica primero, explicación después" es lo que hace que un visitante de Comercial se quede en la página. Para KI, una variante sería: "En 3 meses de Research con [tipo de empresa], encontramos el problema real detrás del síntoma que el cliente creía tener."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referente 8 — Negativo -->
+  <div class="ref-card negative">
+    <div class="ref-card-header">
+      <span class="ref-card-title">8 — Clearleft (referente negativo)</span>
+      <div style="display:flex;gap:6px;">
+        <span class="badge badge-red">Qué NO hacer</span>
+        <span class="badge badge-soft">★★☆☆☆</span>
+      </div>
+    </div>
+    <div class="ref-card-body single">
+      <div class="ref-field">
+        <label>Por qué es negativo</label>
+        <p>Consultora pequeña con identidad de diseño sólida que sigue siendo discipline-first. Organiza sus servicios por disciplina: User Research, Internal Service Design, Product Design, Training. A pesar de incluir frases de negocio, la entrada sigue siendo por nombre de servicio que solo un comprador informado reconoce. Alguien que quiere "entender por qué nuestro producto no retiene usuarios" tiene que saber que eso se llama "User Research" para encontrar la entrada correcta. <strong>Total Experience tiene exactamente el mismo patrón que Clearleft hoy.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PATRONES -->
+  <div class="sec-label">10 patrones identificados</div>
+  <div class="patterns-section">
+    <h4>Patrones relevantes para KI</h4>
+    <table style="margin-bottom:0;">
+      <thead>
+        <tr><th>#</th><th>Patrón</th><th>Referentes</th><th>Relevancia KI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>P1</td><td><strong>Entrada por problema/desafío, no por disciplina</strong></td><td>Strategyzer, IZO, ThoughtWorks</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P2</td><td><strong>Evidencia integrada en la capacidad, no en sección separada</strong></td><td>McKinsey, IBM, IDEO</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P3</td><td><strong>Vocabulario del cliente, no del diseñador</strong></td><td>IZO, Strategyzer, ThoughtWorks</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P4</td><td><strong>Profundización progresiva: resultado visible → metodología disponible</strong></td><td>IDEO, McKinsey</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P5</td><td><strong>Tono de socio, no de proveedor</strong></td><td>ThoughtWorks, IDEO, BCG</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P6</td><td><strong>Herramienta de diagnóstico / navegador de problemas</strong></td><td>BCG Answer, Strategyzer</td><td><span class="badge badge-orange">Media (Fase 2)</span></td></tr>
+        <tr><td>P7</td><td><strong>CTA contextual dentro de la capacidad</strong></td><td>IBM, McKinsey, ThoughtWorks</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P8</td><td><strong>Capacidades integradas (no silos de disciplina)</strong></td><td>ThoughtWorks, IBM</td><td><span class="badge badge-teal">Alta</span></td></tr>
+        <tr><td>P9</td><td><strong>Mobile y sharing-forward</strong></td><td>Todos</td><td><span class="badge badge-orange">Media</span></td></tr>
+        <tr><td>P10</td><td><strong>La escasez de casos es el mayor riesgo</strong></td><td>IDEO, McKinsey</td><td><span class="badge badge-teal">Alta</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- OPORTUNIDADES -->
+  <div class="sec-label">5 oportunidades específicas para KI</div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OPO-1 — Vocabulario de IZO como punto de partida del Nivel 1</span>
+        <span class="badge badge-teal">Alta prioridad</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px; color:var(--fg2);">Las 5 frases de IZO son evidencia de que el patrón funciona en español y en consultoras de tamaño comparable. La tarea de KI es encontrar su propio vocabulario con la entrevista a Paola y validar que resuene.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OPO-2 — Artículo del aeropuerto en formato IDEO (problema → resultado)</span>
+        <span class="badge badge-teal">Alta prioridad</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px; color:var(--fg2);">Reformatearlo con el patrón problema → proceso → resultado → métricas lo convierte en el caso ancla de Research + Service Design. Es el contenido más valioso del sitio, siendo desperdiciado en formato artículo.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OPO-3 — Diagnóstico guiado (versión sin IA del BCG Answer)</span>
+        <span class="badge badge-orange">Fase 2</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px; color:var(--fg2);">Un flow de 3-5 preguntas que devuelve qué capacidades de KI son relevantes. Con lógica condicional, sin IA. Diferenciador único en el mercado hispanohablante — pero requiere contenido suficiente primero.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OPO-4 — CTA contextual por capacidad, no solo en el footer</span>
+        <span class="badge badge-teal">Alta prioridad</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px; color:var(--fg2);">"Hablemos de tu problema de research", "Agenda una sesión diagnóstico". Con bajo esfuerzo técnico. El impacto en conversión debería ser inmediato.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">OPO-5 — Diferenciación por especialización en Latam</span>
+        <span class="badge badge-violet">Diferenciador</span>
+      </div>
+      <div class="card-body">
+        <p style="font-size:12px; color:var(--fg2);">Ningún referente global habla a empresas latinoamericanas en su contexto específico. IZO lo hace parcialmente. KI puede hacer de su foco latinoamericano una ventaja explícita — no como nicho pequeño, sino como especialización.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TABLA COMPARATIVA -->
+  <div class="sec-label">Tabla comparativa — dimensiones del brief</div>
+  <div style="overflow-x: auto;">
+    <table style="min-width:560px;">
+      <thead>
+        <tr>
+          <th>Referente</th>
+          <th>Entrada por problema</th>
+          <th>Evidencia integrada</th>
+          <th>Vocabulario cliente</th>
+          <th>CTA contextual</th>
+          <th>Diagnóstico</th>
+          <th>Relevancia KI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Strategyzer</td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Medio</span></td><td><span class="badge badge-orange">⚠ Parcial</span></td><td>★★★★☆</td></tr>
+        <tr><td>IZO</td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-red">✕ Bajo</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★★★☆</td></tr>
+        <tr><td>ThoughtWorks</td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★★★☆</td></tr>
+        <tr><td>BCG</td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td>★★★★☆</td></tr>
+        <tr><td>McKinsey</td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★★☆☆</td></tr>
+        <tr><td>IDEO</td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★★☆☆</td></tr>
+        <tr><td>IBM Consulting</td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-teal">✓ Alto</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★★☆☆</td></tr>
+        <tr><td>Clearleft (neg.)</td><td><span class="badge badge-red">✕ No</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-red">✕ Bajo</span></td><td><span class="badge badge-orange">⚠ Medio</span></td><td><span class="badge badge-red">✕ No</span></td><td>★★☆☆☆ (qué evitar)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 4 — HEURÍSTICO
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="heuristico">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">6/8</div><div class="stat-label">Críticos (sev. 4)</div></div>
+    <div class="stat-box"><div class="stat-num">2/8</div><div class="stat-label">Mayores (sev. 3)</div></div>
+    <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Evaluadores</div></div>
+    <div class="stat-box"><div class="stat-num">2026-09-30</div><div class="stat-label">Fecha de ejecución</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Pregunta guía:</strong> ¿Puede un tomador de decisiones que recibe el link de totalexperience.cl —sin saber qué es UX ni qué hace KI— entender en 30 segundos si KI puede ayudarlo con su problema?</p>
+  </div>
+  <div class="callout orange" style="margin-top:-8px;">
+    <p><strong>Modo extraordinario:</strong> Se incluye para explorar la herramienta de evaluación heurística en contexto real. No usa las 10 heurísticas genéricas de Nielsen — usa 8 criterios adaptados al objetivo del reposicionamiento. Evaluadores: 4 perfiles senior simulados [S — perspectivas simuladas, datos del sitio son C].</p>
+  </div>
+
+  <div class="sec-label">Heurísticas evaluadas</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>#</th><th>Heurística</th><th>Foco</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>H1</td><td>La primera pantalla comunica quién es KI y qué problema resuelve, en lenguaje de negocio</td><td>Home / Hero</td></tr>
+      <tr><td>H2</td><td>Comercial puede encontrar en menos de 2 clics contenido relevante para un prospecto específico</td><td>Navegación</td></tr>
+      <tr><td>H3</td><td>Hay una propuesta de valor clara y diferenciadora visible sin hacer scroll</td><td>Home</td></tr>
+      <tr><td>H4</td><td>El tono del contenido es para quien evalúa contratar a KI, no para quien quiere aprender UX</td><td>Contenido general</td></tr>
+      <tr><td>H5</td><td>Hay llamadas a la acción claras para el prospecto que quiere dar el siguiente paso</td><td>CTA / Contacto</td></tr>
+      <tr><td>H6</td><td>La arquitectura favorece profundización progresiva (problema → capacidad → método)</td><td>Estructura</td></tr>
+      <tr><td>H7</td><td>Existe evidencia concreta de capacidades y resultados reales</td><td>Casos / Artículos</td></tr>
+      <tr><td>H8</td><td>La experiencia en mobile es funcional para alguien que recibe el link por WhatsApp</td><td>Mobile</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-label">Resultados consolidados (4 evaluadores)</div>
+
+  <!-- H1 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H1</span>
+      <span class="heuristic-title">Primera pantalla: comunicación de quién es KI</span>
+      <span class="sev-badge sev-4">4 — Crítico · Unánime</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> La primera pantalla del sitio funciona como la portada de un curso de UX, no como la entrada de una consultora que resuelve problemas de negocio. El hero es el título "Proceso experiencia de usuario" — no menciona a KI. El mensaje central es una definición académica: "El proceso de UX es un enfoque integral para diseñar productos..." Un prospecto que llega sin contexto no puede saber si KI puede ayudarlo.<br><br>
+      <strong>Evaluadores C y D agregan:</strong> El hero tiene título pero no <em>headline</em> de propuesta de valor. La diferencia: "Proceso experiencia de usuario" nombra el tema; "Acompañamos a empresas medianas y grandes a crear productos digitales que sus usuarios realmente usan" conecta KI con el problema del visitante. El rediseño no requiere cambiar la estructura visual del hero — solo el copy.
+    </div>
+  </div>
+
+  <!-- H2 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H2</span>
+      <span class="heuristic-title">Accesibilidad de contenido relevante en menos de 2 clics</span>
+      <span class="sev-badge sev-4">4 — Crítico · Mayoría</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> Escenario A (compartir Research con prospecto de banca): técnicamente 1 clic, pero el destino es educativo — Comercial lleva al prospecto a un repositorio de conocimiento, no a evidencia de lo que KI hace. Escenario B (prospecto quiere mejorar experiencia existente): no existe ninguna ruta posible. El sistema de navegación no tiene entrada por problema de negocio.<br><br>
+      <strong>Evaluador A agrega (sube a 4):</strong> La taxonomía del menú es incompatible con el modelo mental del visitante. Las etiquetas (Análisis del Negocio, Investigación, Arquitectura y Prototipos, Testeos, Medición) son el modelo mental de un practicante UX — no de un decisor de negocio.<br><br>
+      <strong>Mobile (Evaluador A):</strong> En mobile, el hamburger es el único punto de entrada a todo el contenido del sitio. Un visitante que no interactúa con él está atrapado en el Home sin salida visible.
+    </div>
+  </div>
+
+  <!-- H3 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H3</span>
+      <span class="heuristic-title">Propuesta de valor visible sin scroll</span>
+      <span class="sev-badge sev-4">4 — Crítico · Unánime</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> No existe propuesta de valor en ninguna parte del sitio — ni above the fold, ni debajo. El Home comunica "aquí existe el proceso UX" pero no "aquí KI resuelve tu problema X con resultados Y". No hay ninguna declaración de valor de KI, ninguna distinción de cualquier otra consultora UX, ninguna indicación de qué entrega KI.<br><br>
+      <strong>Evaluador D agrega:</strong> Hay una diferencia entre descripción y posicionamiento. El sitio describe qué hace KI (el proceso UX). No posiciona a KI: no dice en qué es diferente, para quién es mejor, qué resultado garantiza. Cualquier otra consultora UX podría tener exactamente el mismo sitio.
+    </div>
+  </div>
+
+  <!-- H4 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H4</span>
+      <span class="heuristic-title">Tono del contenido: negocio vs. academia UX</span>
+      <span class="sev-badge sev-3">3 — Mayor</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> El tono predominante del sitio es el de un recurso educativo para profesionales de UX que quieren aprender métodos. El único contenido con potencial de hablarle a alguien que quiere contratar es el artículo del aeropuerto — y ese también adopta el registro de paper académico.<br><br>
+      <strong>Evaluador C identifica 3 mecanismos concretos:</strong> (1) Definiciones en lugar de afirmaciones de valor — "¿Qué es X?" en lugar de "Esto te ayuda a…"; (2) Voz pasiva y tercera persona — suena a enciclopedia, no a consultora; (3) Ausencia del "tú" — en ninguna parte del sitio hay una dirección directa al visitante.<br><br>
+      <strong>Evaluador D baja a síntoma (severidad 3):</strong> El tono es consecuencia del fallo de posicionamiento — cuando se resuelva la estrategia de contenido, el tono se resuelve con ella. No requiere intervención separada.
+    </div>
+  </div>
+
+  <!-- H5 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H5</span>
+      <span class="heuristic-title">Llamadas a la acción para el prospecto</span>
+      <span class="sev-badge sev-4">4 — Crítico · Unánime</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> El único CTA real del sitio es el email en el footer — sin texto de invitación ("escríbenos", "conversemos"), solo el mail. No hay ninguna invitación a dar el siguiente paso en ninguna página de contenido. El download del aeropuerto existe pero no lleva a ninguna acción de contacto posterior.<br><br>
+      <strong>Evaluador B precisa:</strong> El email en el footer está presentado como dato informativo, no como llamada a la acción. Un CTA es "Escríbenos y conversamos" con el mail. Una dirección de correo sola es un dato — el visitante tiene que decidir solo si merece la pena escribir sin que nadie lo haya invitado.<br><br>
+      <strong>Evaluador D agrega:</strong> La ausencia de CTAs no es un olvido de diseño — es consecuencia de que nadie diseñó el sitio para convertir. Fue diseñado para informar. No existe arquitectura de conversión de ningún tipo.
+    </div>
+  </div>
+
+  <!-- H6 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H6</span>
+      <span class="heuristic-title">Arquitectura: profundización progresiva</span>
+      <span class="sev-badge sev-4">4 — Crítico · Mayoría</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> La arquitectura está completamente construida desde la lógica del proceso UX, no desde la lógica del problema de negocio. Es navegable y coherente para alguien que ya entiende UX — e incomprensible para alguien que llega a evaluar si KI puede ayudarlo.<br><br>
+      <strong>Evaluador A agrega — profundización falsa:</strong> El sitio tiene 2 niveles (sección → métodos), pero el segundo nivel va más profundo en la disciplina, no más cerca del problema del visitante. Quien llega a "Investigación" y ve "Cardsorting", "Entrevistas", "Benchmark" está <em>más lejos</em> del cierre comercial que cuando estaba en el Home.<br><br>
+      <strong>Evaluador D — diagnóstico estratégico:</strong> La arquitectura del sitio es un organigrama disfrazado de menú. Las secciones son las áreas de práctica de KI — tiene sentido internamente, no para un comprador. Un comprador no piensa "necesito a alguien que haga Testeos" — piensa "mi app tiene mala retención y no sé por qué".
+    </div>
+  </div>
+
+  <!-- H7 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H7</span>
+      <span class="heuristic-title">Evidencia concreta de capacidades y resultados</span>
+      <span class="sev-badge sev-4">4 — Crítico · Mayoría</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> El sitio tiene prácticamente cero evidencia de que KI ejecutó algo real y obtuvo un resultado. El artículo del aeropuerto existe pero no tiene formato de caso de negocio (no muestra: problema del cliente → qué hizo KI → qué resultado → métrica). Un prospecto que quiere saber "¿han hecho esto antes?" no encuentra respuesta.<br><br>
+      <strong>Evaluador C — estructura ausente del aeropuerto:</strong><br>
+      ❌ Actual: Contexto → metodología aplicada → hallazgos → conclusión académica<br>
+      ✓ Debería ser: Problema del cliente → por qué KI → qué hicimos → qué obtuvimos (resultado medible) → qué significa para empresas similares<br><br>
+      <strong>Evaluador D sube a crítico:</strong> Un prospecto senior no toma la decisión de contratar por la calidad de la metodología — la toma por la evidencia de que KI generó resultados en contextos parecidos al suyo.
+    </div>
+  </div>
+
+  <!-- H8 -->
+  <div class="heuristic-card">
+    <div class="heuristic-header">
+      <span class="heuristic-code">H8</span>
+      <span class="heuristic-title">Experiencia mobile — recibir el link por WhatsApp</span>
+      <span class="sev-badge sev-3">3 — Mayor</span>
+    </div>
+    <div class="heuristic-body">
+      <strong>Hallazgo:</strong> La experiencia mobile técnicamente funciona — carga, el texto es legible, el layout se adapta. El problema no es técnico sino de contenido: el prospecto que abre el link en WhatsApp ve exactamente lo mismo que en desktop, sin ningún valor agregado para evaluación rápida.<br><br>
+      <strong>Evaluador A sube a 4:</strong> El hamburger es el único punto de entrada a todo el contenido del sitio en mobile. Un visitante que no interactúa con él está atrapado en el Home sin salida visible — no hay cards de secciones, no hay links directos alternativos.<br><br>
+      <strong>Evaluador B:</strong> El diagrama de proceso ocupa ~80% del viewport en mobile en la segunda pantalla. Para el prospecto que abre el link solo, la primera impresión mobile es un diagrama sin contexto.<br><br>
+      <strong>Dispersión entre evaluadores (único con 4 votos distintos: 4, 3, 2, 2):</strong> La severidad 3 se mantiene como conservadora — el hamburger hay que corregirlo, pero mobile no es el bloqueante principal.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Tabla de consolidación — 4 evaluadores</div>
+  <div style="overflow-x: auto;">
+    <table style="min-width:520px; margin-bottom:24px;">
+      <thead>
+        <tr>
+          <th>Heurística</th>
+          <th>A (IA/Usab.)</th>
+          <th>B (UX/UI)</th>
+          <th>C (Content)</th>
+          <th>D (Estratega)</th>
+          <th>Consolidada</th>
+          <th>Confianza</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>H1 — Primera pantalla</td><td>4</td><td>4</td><td>4</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>✓ Unánime</td></tr>
+        <tr><td>H2 — Accesibilidad</td><td>4</td><td>3</td><td>3</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>Mayoría (A+D)</td></tr>
+        <tr><td>H3 — Propuesta de valor</td><td>4</td><td>4</td><td>4</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>✓ Unánime</td></tr>
+        <tr><td>H4 — Tono</td><td>3</td><td>3</td><td>4</td><td>3</td><td><span class="badge badge-orange">3 — Mayor</span></td><td>Solo Content eleva</td></tr>
+        <tr><td>H5 — CTAs</td><td>4</td><td>4</td><td>4</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>✓ Unánime</td></tr>
+        <tr><td>H6 — Arquitectura</td><td>4</td><td>4</td><td>3</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>Mayoría (Content baja)</td></tr>
+        <tr><td>H7 — Evidencia</td><td>3</td><td>3</td><td>4</td><td>4</td><td><span class="badge badge-red">4 — Crítico</span></td><td>Mayoría (C+D elevan)</td></tr>
+        <tr><td>H8 — Mobile</td><td>4</td><td>3</td><td>2</td><td>2</td><td><span class="badge badge-orange">3 — Mayor</span></td><td>Dispersión (4 votos distintos)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-label">Oportunidades de mejora priorizadas</div>
+  <table>
+    <thead>
+      <tr><th>Prioridad</th><th>Acción</th><th>Impacto esperado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Reescribir el hero del Home con una propuesta de valor en lenguaje de negocio</td><td>Cualquier visitante entiende en 5s si KI es relevante para su situación</td></tr>
+      <tr><td>2</td><td>Agregar un CTA contextual en cada página de sección y en el artículo del aeropuerto</td><td>El prospecto motivado puede dar el siguiente paso sin buscar el footer</td></tr>
+      <tr><td>3</td><td>Reformatear el artículo del aeropuerto como caso de negocio (problema → proceso → resultado)</td><td>La única evidencia disponible empieza a generar confianza real</td></tr>
+      <tr><td>4</td><td>Añadir un nivel de entrada por problema de negocio (Nivel 1 del nuevo sitio)</td><td>La navegación se vuelve accesible para compradores que no conocen UX</td></tr>
+      <tr><td>5</td><td>Agregar una frase de propuesta de valor diferenciadora de KI</td><td>El prospecto puede recordar a KI después de cerrar la pestaña</td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 5 — INVENTARIO
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="inventario">
+
+  <div class="stat-row">
+    <div class="stat-box dark"><div class="stat-num">94</div><div class="stat-label">Ítems de contenido</div></div>
+    <div class="stat-box"><div class="stat-num">64</div><div class="stat-label">Métodos / conceptos</div></div>
+    <div class="stat-box"><div class="stat-num">24</div><div class="stat-label">Artefactos</div></div>
+    <div class="stat-box"><div class="stat-num">6</div><div class="stat-label">Artículos</div></div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Navegación principal (8 ítems):</strong> INICIO · ANÁLISIS DEL NEGOCIO · INVESTIGACIÓN · ARQUITECTURA Y PROTOTIPOS · TESTEOS · MEDICIÓN · ARTÍCULOS · ARTEFACTOS. La lógica de navegación sigue literalmente las etapas del proceso UX: análisis → investigación → arquitectura → testeos → medición.</p>
+  </div>
+
+  <!-- RESUMEN CUANTITATIVO -->
+  <div class="sec-label">Resumen cuantitativo</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Sección</th><th>Métodos / Conceptos</th><th>Artefactos</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Análisis del Negocio</td><td>11</td><td>7</td><td><strong>18</strong></td></tr>
+      <tr><td>Investigación</td><td>15</td><td>6</td><td><strong>21</strong></td></tr>
+      <tr><td>Arquitectura y Prototipos</td><td>15</td><td>4</td><td><strong>19</strong></td></tr>
+      <tr><td>Testeos</td><td>11</td><td>4</td><td><strong>15</strong></td></tr>
+      <tr><td>Medición</td><td>12</td><td>3</td><td><strong>15</strong></td></tr>
+      <tr><td>Artículos</td><td>—</td><td>—</td><td><strong>6 artículos</strong></td></tr>
+      <tr style="font-weight:700; background: var(--soft);"><td>TOTAL</td><td>64 métodos / conceptos</td><td>24 artefactos</td><td><strong>94 ítems</strong></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ANÁLISIS DEL NEGOCIO -->
+  <div class="sec-label">Análisis del Negocio — 11 ítems</div>
+  <div class="callout" style="margin-bottom:12px;">
+    <p>Texto intro: ~400 palabras, tono educativo/descriptivo. URL: /analisis-del-negocio/analisis-del-negocio.php</p>
+  </div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Ítem</th><th>Tipo</th><th>Evaluación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Análisis de negocio (intro)</td><td>Página intro</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Historias de usuario</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Mapa historia de usuario</td><td>Método / Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Brainstorming</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Entrevistas a stakeholders</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Scope canvas</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Mapa de stakeholders</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Workshop con stakeholders</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>KPI y UX</td><td>Concepto / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>ROI y UX</td><td>Concepto / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Estimaciones y UX</td><td>Guía</td><td><span class="badge badge-soft">🔲 Neutral</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- INVESTIGACIÓN -->
+  <div class="sec-label">Investigación — 15 ítems</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Ítem</th><th>Tipo</th><th>Evaluación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Investigación (intro)</td><td>Página intro</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Entrevistas a usuarios</td><td>Método cualitativo</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Test de usabilidad</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Encuestas</td><td>Método cuantitativo</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Focus groups</td><td>Método cualitativo</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Mapas mentales</td><td>Artefacto / Técnica</td><td><span class="badge badge-soft">🔲 Neutral</span></td></tr>
+      <tr><td>Mapa de empatía</td><td>Artefacto de síntesis</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Test heurístico</td><td>Método de evaluación</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Análisis de la competencia</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Métricas cuantitativas (GA4 + HubSpot)</td><td>Método cuantitativo</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Personas y escenarios</td><td>Artefacto de síntesis</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Customer journey map</td><td>Artefacto de síntesis</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Service blueprint</td><td>Artefacto de síntesis</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Antropología y UX</td><td>Concepto / Enfoque</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Netnografía</td><td>Método cualitativo</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ARQUITECTURA Y PROTOTIPOS -->
+  <div class="sec-label">Arquitectura y Prototipos — 15 ítems</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Ítem</th><th>Tipo</th><th>Evaluación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Arquitectura y Prototipos (intro)</td><td>Página intro</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Cardsorting</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Tree testing</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Sistemas de navegación</td><td>Concepto / Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Mapa de sitio</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Diagrama de flujo</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>User flow</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Wireflows</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Wireframes</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Prototipos</td><td>Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Guía de estilo de contenido</td><td>Artefacto / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Inventario de contenidos</td><td>Método / Artefacto</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Voz y tono</td><td>Concepto / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Design system</td><td>Concepto / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Pautas de accesibilidad</td><td>Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- TESTEOS -->
+  <div class="sec-label">Testeos — 11 ítems</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Ítem</th><th>Tipo</th><th>Evaluación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Testeos (intro)</td><td>Página intro</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Test de usabilidad</td><td>Método</td><td><span class="badge badge-red">✕ Redundante</span></td></tr>
+      <tr><td>Test de guerrilla</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Test de laboratorio</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>A/B testing</td><td>Método cuantitativo</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Preference test</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>First click test</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Emotional test</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Heatmap / Mapa de calor</td><td>Herramienta analítica</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Click path</td><td>Herramienta analítica</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Eyetracking</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- MEDICIÓN -->
+  <div class="sec-label">Medición — 12 ítems</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Ítem</th><th>Tipo</th><th>Evaluación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Medición (intro)</td><td>Página intro</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Métricas y su clasificación</td><td>Concepto / Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>¿Qué medir?</td><td>Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Proceso de medición</td><td>Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Análisis / insights</td><td>Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Presentar las métricas</td><td>Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Google Analytics y UX</td><td>Herramienta / Guía</td><td><span class="badge badge-orange">⚠ Reencuadre</span></td></tr>
+      <tr><td>Métricas de usabilidad</td><td>Guía</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Cuestionario NPS</td><td>Herramienta / Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Cuestionario SUS</td><td>Herramienta / Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Cuestionario CSAT</td><td>Herramienta / Método</td><td><span class="badge badge-teal">✓ Relevante</span></td></tr>
+      <tr><td>Cuestionario ASQ</td><td>Herramienta / Método</td><td><span class="badge badge-soft">🔲 Neutral</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ARTÍCULOS -->
+  <div class="sec-label">Artículos — 6 artículos</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Artículo</th><th>Tipo</th><th>Estado</th><th>Razón</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Estudio Aeropuerto AMB</td>
+        <td>Caso aplicado</td>
+        <td><span class="badge badge-orange">⚠ Reencuadre</span></td>
+        <td>Alto valor como caso aplicado, pero menciona "área de Experiencias de KI" — viola principio del brief</td>
+      </tr>
+      <tr>
+        <td>Transformar datos en decisiones</td>
+        <td>Editorial / Guía</td>
+        <td><span class="badge badge-teal">✓ Relevante</span></td>
+        <td>Pensamiento metodológico; alineado con Medición</td>
+      </tr>
+      <tr>
+        <td>La Netnografía</td>
+        <td>Editorial / Disciplina</td>
+        <td><span class="badge badge-teal">✓ Relevante</span></td>
+        <td>Voz diferenciadora; perspectiva antropológica refuerza profundidad</td>
+      </tr>
+      <tr>
+        <td>¿Estamos mejorando la experiencia?</td>
+        <td>Editorial / Opinión</td>
+        <td><span class="badge badge-orange">⚠ Reencuadre</span></td>
+        <td>Perspectiva de consultor crítico; título puede percibirse difuso</td>
+      </tr>
+      <tr>
+        <td>El mito del senior</td>
+        <td>Editorial / Reflexión</td>
+        <td><span class="badge badge-red">✕ Fuera de foco</span></td>
+        <td>Trata liderazgo/talento — no conecta con ninguna dimensión del nuevo modelo</td>
+      </tr>
+      <tr>
+        <td>Esto se volvió personal</td>
+        <td>Editorial / Reflexión</td>
+        <td><span class="badge badge-orange">⚠ Reencuadre</span></td>
+        <td>Reflexión sobre valor del UX; bien escrito pero necesita contextualizarse</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- VERSIÓN EN -->
+  <div class="sec-label">Estado de la versión EN</div>
+  <div class="callout teal">
+    <p>La versión EN existe y aparece completa en estructura (mismas 8 secciones). Business Analysis revisada directamente: completa y de calidad. Los 6 artículos tienen versión EN. <strong>Alerta:</strong> Los submenús de métodos no aparecen en la navegación EN — puede significar que el hover/JS los oculta o que la versión EN no tiene subpáginas individuales de cada método [S — requiere verificación].</p>
+  </div>
+
+  <!-- OBSERVACIONES -->
+  <div class="sec-label">Observaciones adicionales</div>
+  <ul class="content-list">
+    <li><strong>Duplicación "Test de usabilidad":</strong> aparece en Investigación Y en Testeos. Definir cuál es la ubicación canónica en el Nivel 3.</li>
+    <li><strong>Duplicación "Ejemplo plan testeo con usuarios":</strong> aparece dos veces en la sección Artefactos.</li>
+    <li><strong>Artículo aeropuerto:</strong> usa la voz "el área de Experiencias de Ki Technologies" — viola el principio del brief. Debe editarse antes del lanzamiento.</li>
+    <li><strong>Footer:</strong> el logo de KI y el enlace a kitechnologies.com son el único punto de conexión entre Total Experience y KI como empresa. No hay texto explicativo.</li>
+    <li><strong>No existe buscador interno, sección de casos de estudio, portafolio de proyectos, ni sección "Acerca de".</strong></li>
+  </ul>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TAB 6 — GAPS
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="panel" id="gaps">
+
+  <div class="stat-row">
+    <div class="stat-box" style="background: var(--red-bg); border: 1px solid var(--red);">
+      <div class="stat-num" style="color: var(--red);">3</div>
+      <div class="stat-label" style="color: var(--red);">Gaps totales Nivel 1</div>
+    </div>
+    <div class="stat-box" style="background: var(--orange-bg); border: 1px solid var(--orange);">
+      <div class="stat-num" style="color: var(--orange);">4</div>
+      <div class="stat-label" style="color: var(--orange);">Gaps parciales Nivel 1</div>
+    </div>
+    <div class="stat-box" style="background: var(--red-bg); border: 1px solid var(--red);">
+      <div class="stat-num" style="color: var(--red);">5</div>
+      <div class="stat-label" style="color: var(--red);">Gaps totales Nivel 2</div>
+    </div>
+    <div class="stat-box"><div class="stat-num">0</div><div class="stat-label">CTA visible en el sitio actual</div></div>
+  </div>
+
+  <div class="callout">
+    <p>El sitio actual no tiene ninguna entrada por problema de negocio. Todo lo que hay son métodos organizados por etapa de proceso. Tres de los ocho tipos de problema del Nivel 1 propuesto no tienen ningún contenido equivalente hoy.</p>
+  </div>
+
+  <!-- NIVEL 1 -->
+  <div class="sec-label" style="margin-bottom:14px;">Nivel 1 — Gaps de entrada por problema</div>
+  <div class="gap-grid">
+    <div class="gap-item total"><h4>Crear o evolucionar producto</h4><p>Gap total — no existe ningún contenido equivalente hoy</p></div>
+    <div class="gap-item total"><h4>Ordenar procesos y capacidades</h4><p>Gap total — no existe ninguna entrada</p></div>
+    <div class="gap-item total"><h4>Incorporar IA</h4><p>Gap total — IA no mencionada en el sitio actual</p></div>
+    <div class="gap-item partial"><h4>Entender un problema</h4><p>Indirectamente en Investigación, sin narrativa de negocio</p></div>
+    <div class="gap-item partial"><h4>Mejorar una experiencia</h4><p>Indirectamente en Testeos + Medición; sin perspectiva de mejora continua</p></div>
+    <div class="gap-item partial"><h4>Validar antes de desarrollar</h4><p>Indirectamente en Testeos, sin narrativa de valor</p></div>
+    <div class="gap-item partial"><h4>Mejorar un servicio</h4><p>Service blueprint es lo más cercano; un método no es una capacidad</p></div>
+    <div class="gap-item ok"><h4>Medir resultados</h4><p>Sección Medición existe; falta conexión con decisiones de negocio</p></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- NIVEL 2 -->
+  <div class="sec-label" style="margin-bottom:14px;">Nivel 2 — Estado de capacidades</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Capacidad</th><th>Cobertura actual</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Research</td><td>Sección "Investigación" completa</td><td><span class="badge badge-orange">⚠ Falta narrativa de capacidad</span></td></tr>
+      <tr><td>Product Design</td><td>No existe como capacidad</td><td><span class="badge badge-red">✕ Gap total</span></td></tr>
+      <tr><td>Service Design</td><td>Solo service blueprint</td><td><span class="badge badge-red">✕ Un método ≠ capacidad</span></td></tr>
+      <tr><td>UX/UI</td><td>Implícito en todo el sitio</td><td><span class="badge badge-orange">⚠ Disperso, sin página propia</span></td></tr>
+      <tr><td>Content</td><td>Guía de voz y tono, guía de estilo</td><td><span class="badge badge-orange">⚠ Fragmentado, falta narrativa</span></td></tr>
+      <tr><td>Design Systems</td><td>Una entrada en Arquitectura</td><td><span class="badge badge-red">✕ Insuficiente</span></td></tr>
+      <tr><td>DesignOps</td><td>No existe</td><td><span class="badge badge-red">✕ Gap total</span></td></tr>
+      <tr><td>Métricas</td><td>Sección "Medición" completa</td><td><span class="badge badge-orange">⚠ Falta narrativa de capacidad</span></td></tr>
+      <tr><td>Analytics</td><td>Análisis GA en Investigación y Medición</td><td><span class="badge badge-orange">⚠ Fragmentado, no como capacidad</span></td></tr>
+      <tr><td>IA aplicada</td><td>No existe</td><td><span class="badge badge-red">✕ Gap total</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <!-- OTROS GAPS -->
+  <div class="sec-label">Otros gaps estructurales</div>
+  <table style="margin-bottom:24px;">
+    <thead>
+      <tr><th>Gap</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Narrativa de KI</strong></td><td>No existe "quiénes somos", "cómo pensamos", "qué nos diferencia" en ninguna parte del sitio</td></tr>
+      <tr><td><strong>Casos de estudio</strong></td><td>El aeropuerto es el único contenido aplicado; no hay portafolio de proyectos</td></tr>
+      <tr><td><strong>Propuesta de valor</strong></td><td>No hay hero ni sección que explique por qué contratar a KI</td></tr>
+      <tr><td><strong>Contacto / CTA</strong></td><td>No hay llamada a la acción visible en el contenido; solo un email en el footer</td></tr>
+      <tr><td><strong>Mobile (evaluación)</strong></td><td>No se pudo evaluar calidad de la experiencia mobile en profundidad — requiere dispositivo real</td></tr>
+    </tbody>
+  </table>
+
+  <!-- DECISIONES PROPUESTAS -->
+  <div class="sec-label">Decisiones propuestas</div>
+  <div class="callout orange" style="margin-bottom:12px;">
+    <p><strong>DEC-02-A</strong> — Resolver la duplicación de "Test de usabilidad": definir si vive en Investigación o en Testeos (o en ambos con distintos enfoques). Impacto en arquitectura del Nivel 3.</p>
+  </div>
+  <div class="callout orange" style="margin-bottom:12px;">
+    <p><strong>DEC-02-B</strong> — Editar el artículo del aeropuerto para eliminar la referencia a "el área de Experiencias de KI Technologies" antes del lanzamiento del nuevo sitio.</p>
+  </div>
+  <div class="callout orange" style="margin-bottom:12px;">
+    <p><strong>DEC-02-C</strong> — Definir el destino de "El mito del senior": retirarlo de la sección Artículos o archivarlo. Alternativa: reencuadrarlo como parte de una futura sección sobre cultura de KI.</p>
+  </div>
+  <div class="callout orange" style="margin-bottom:12px;">
+    <p><strong>DEC-02-D</strong> — Confirmar el alcance real de la versión EN a nivel de subpáginas de métodos antes de diseñar la arquitectura del Nivel 3 en inglés.</p>
+  </div>
+  <div class="callout orange">
+    <p><strong>DEC-02-E</strong> — Priorizar qué capacidades de Nivel 2 se producen primero: recomendación Research + Product Design + Service Design como mínimo viable, dado que son las más respaldadas por contenido de Nivel 3 existente.</p>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>

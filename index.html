@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Total Experience · KI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #FFFFFF; --surface: #FAFAF9; --fg: #0A0A0A; --fg2: #5A5A5A;
+    --border: #E0E0DE; --soft: #F5F5F3;
+    --violet: #7418F0; --violet-bg: #F0E8FE;
+    --green: #0097A7; --green-bg: #E0F7FA;
+    --amber: #FC7A05; --amber-bg: #FFF4EC; --amber-text: #a84d00;
+    --gray: #888888; --gray-bg: #F5F5F3;
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); font-size: 14px; line-height: 1.6; }
+
+  .ki-bar { background: #0A0A0A; padding: 12px 28px; display: flex; align-items: center; gap: 16px; }
+  .ki-bar img { height: 32px; width: auto; }
+  .ki-bar-sep { width: 1px; height: 24px; background: #333; }
+  .ki-bar-title { color: #CCC; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
+  .ki-bar-right { margin-left: auto; font-size: 11px; color: #666; font-family: 'Manrope', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .project-header { margin-bottom: 36px; }
+  .project-tag { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--fg2); margin-bottom: 8px; }
+  .project-header h1 { font-family: 'Manrope', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+  .project-desc { font-size: 14px; color: var(--fg2); max-width: 560px; line-height: 1.7; }
+
+  /* Progress */
+  .progress-bar-wrap { margin: 20px 0 36px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--fg2); margin-bottom: 6px; font-family: 'Manrope', sans-serif; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--violet); border-radius: 2px; width: 60%; }
+
+  /* Ready state */
+  .stage-card.ready { border-color: var(--amber); }
+  .stage-card.ready .stage-num { background: var(--amber); color: #FFF; border-right-color: var(--amber); }
+
+  /* Section */
+  .section-label { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 12px; }
+
+  /* Stage cards */
+  .stages { display: flex; flex-direction: column; gap: 8px; }
+  .stage-card { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; align-items: stretch; }
+  .stage-num { width: 40px; display: flex; align-items: center; justify-content: center; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800; color: var(--fg2); background: var(--soft); flex-shrink: 0; border-right: 1px solid var(--border); }
+  .stage-body { padding: 14px 18px; flex: 1; }
+  .stage-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+  .stage-name { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 800; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; white-space: nowrap; }
+  .badge-done { background: var(--green); color: #FFF; }
+  .badge-pending { background: var(--amber); color: #FFF; }
+  .badge-wait { background: var(--gray-bg); color: var(--gray); }
+  .stage-desc { font-size: 12px; color: var(--fg2); margin-bottom: 12px; line-height: 1.5; }
+  .stage-links { display: flex; flex-wrap: wrap; gap: 6px; }
+  .link-btn { display: inline-flex; align-items: center; gap: 5px; text-decoration: none; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 6px; border: 1.5px solid var(--border); color: var(--fg); background: var(--bg); transition: border-color .12s, background .12s; }
+  .link-btn:hover { border-color: #0A0A0A; background: var(--soft); }
+  .link-btn.primary { border-color: var(--violet); background: var(--violet); color: #FFF; }
+  .link-btn.primary:hover { background: #5e12c0; border-color: #5e12c0; }
+  .link-btn-icon { font-size: 12px; opacity: .7; }
+
+  /* Active border for validated */
+  .stage-card.validated { border-color: var(--green); }
+  .stage-card.validated .stage-num { background: var(--green); color: #FFF; border-right-color: var(--green); }
+
+  /* Violet accent on section labels and project tag */
+  .project-tag { color: var(--violet); }
+  .section-label { color: var(--violet); }
+
+  /* Botones con color según estado del card */
+  .stage-card.validated .link-btn.primary { background: var(--green); border-color: var(--green); }
+  .stage-card.validated .link-btn.primary:hover { background: #007a8a; border-color: #007a8a; }
+  .stage-card.validated .link-btn:not(.primary):hover { border-color: var(--green); }
+  .stage-card.ready .link-btn.primary { background: var(--amber); border-color: var(--amber); }
+  .stage-card.ready .link-btn.primary:hover { background: #d96600; border-color: #d96600; }
+  .stage-card.ready .link-btn:not(.primary):hover { border-color: var(--amber); }
+
+  /* Separator */
+  .flow-arrow { text-align: center; padding: 4px 0; font-size: 16px; color: var(--border); }
+
+  /* Meta bar */
+  .meta-bar { margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { }
+  .meta-key { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fg2); margin-bottom: 3px; }
+  .meta-val { font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="ki-bar">
+  <img src="https://www.kitechnologies.com/wp-content/uploads/2024/10/logo-kitechnologies-white.svg" alt="Ki Technologies">
+  <div class="ki-bar-sep"></div>
+  <span class="ki-bar-title">Total Experience</span>
+  <span class="ki-bar-right">2026 · Proyecto activo</span>
+</div>
+
+<main>
+  <div class="project-header">
+    <div class="project-tag">KI Technologies · Reposicionamiento digital</div>
+    <h1>Panel de Entregables</h1>
+    <p class="project-desc">Repositorio de trabajo del proyecto de rediseño y reposicionamiento de totalexperience.cl. Red de agentes especialistas Product Designer KI.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Avance del proyecto</span>
+      <span>70% · Arquitectura en proceso · Card sorting completado</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:70%;"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:8px;">Documentos del proceso</div>
+  <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px;">
+    <a href="html/proceso-red-agentes.html" class="link-btn">
+      <span class="link-btn-icon">↗</span> Red de agentes — para equipo y gerencia
+    </a>
+    <a href="html/09-protocolo-orquestacion.html" class="link-btn">
+      <span class="link-btn-icon">↗</span> Protocolo de orquestación — paso a paso con métodos
+    </a>
+  </div>
+
+  <div class="section-label">Etapas del proyecto</div>
+  <div class="stages">
+
+    <div class="stage-card validated">
+      <div class="stage-num">00</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Contexto y Discovery</span>
+          <span class="badge badge-done">✓ Validado</span>
+        </div>
+        <p class="stage-desc">Información base del proyecto: audiencias, cambio de foco estratégico, dimensiones y alertas críticas identificadas.</p>
+        <div class="stage-links">
+          <a href="html/00-contexto-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">01</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Estrategia de Producto</span>
+          <span class="badge badge-done">✓ Validado</span>
+        </div>
+        <p class="stage-desc">Visión E2E, dos roles del sitio (habilitación comercial + adquisición), audiencias y alcance. Plan de medición v1 con 5 objetivos estratégicos, KPIs y baselines HubSpot. v4.0 aprobada.</p>
+        <div class="stage-links">
+          <a href="html/01-estrategia-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver estrategia</a>
+          <a href="html/01-plan-medicion-visual.html" class="link-btn"><span class="link-btn-icon">↗</span> Plan de medición v1</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">02</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Investigación</span>
+          <span class="badge badge-done">✓ Validado</span>
+        </div>
+        <p class="stage-desc">4 métodos ejecutados: entrevista Paola, auditoría Analytics GA4, benchmark y heurístico. 94 ítems de contenido inventariados.</p>
+        <div class="stage-links">
+          <a href="html/02-investigacion-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">02b</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Testeos baseline</span>
+          <span class="badge badge-done">✓ Validado</span>
+        </div>
+        <p class="stage-desc">Testeo del sitio actual con 4 agentes-arquetipo (Felipe, Camila, Rodrigo, Andrea). 9/9 hipótesis confirmadas. Satisfacción promedio 2/5. Desbloquea Sesión 04.</p>
+        <div class="stage-links">
+          <a href="html/02b-testeos-baseline-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">03</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Síntesis</span>
+          <span class="badge badge-done">✓ Validado v2</span>
+        </div>
+        <p class="stage-desc">Arquetipos (Felipe, Camila, Rodrigo, Andrea) y 3 Mundos del Decisor de Negocio en scope v1 (Personas/HR excluido — DEC-I). v2 integra hallazgos de los 4 testeos.</p>
+        <div class="stage-links">
+          <a href="html/03-sintesis-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">04</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Ideación</span>
+          <span class="badge badge-done">✓ Validado</span>
+        </div>
+        <p class="stage-desc">3 ideas seleccionadas: Sistema idioma síntoma, Grilla de necesidades y problemas del prospecto en Home, Sistema confianza progresivo. DEC-I01 a DEC-I06 registrados.</p>
+        <div class="stage-links">
+          <a href="md/04-ideacion.md" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+          <a href="html/04-ideacion-visual.html" class="link-btn"><span class="link-btn-icon">↗</span> Visual interactivo</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card ready">
+      <div class="stage-num">05</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Arquitectura de Información</span>
+          <span class="badge badge-pending">🔵 En proceso</span>
+        </div>
+        <p class="stage-desc">Card sorting completado · Mapa del sitio v1 en revisión · Flujos de usuario y wireframes pendientes. Rótulos finales a definir en 06 Contenido.</p>
+        <div class="stage-links">
+          <a href="html/05-arquitectura-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card">
+      <div class="stage-num">06</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Contenido</span>
+          <span class="badge badge-wait">⏸ En espera</span>
+        </div>
+        <p class="stage-desc">Estrategia de contenido y copy real de cada página. Activa cuando se valide 05 Arquitectura. Puede correr en paralelo con 07 Diseño UI.</p>
+        <div class="stage-links">
+          <span style="font-size:11px; color:var(--fg2); padding: 5px 0; display:inline-block;">Disponible al completar 05 Arquitectura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card">
+      <div class="stage-num">07</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Diseño UI y Design System</span>
+          <span class="badge badge-wait">⏸ En espera</span>
+        </div>
+        <p class="stage-desc">UI de alta fidelidad, componentes, tokens y estados. Activa cuando se valide 05 Arquitectura. Puede correr en paralelo con 06 Contenido.</p>
+        <div class="stage-links">
+          <span style="font-size:11px; color:var(--fg2); padding: 5px 0; display:inline-block;">Disponible al completar 05 Arquitectura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow">↓</div>
+
+    <div class="stage-card validated">
+      <div class="stage-num">08</div>
+      <div class="stage-body">
+        <div class="stage-header">
+          <span class="stage-name">Testeos con Usuarios</span>
+          <span class="badge badge-done">✓ Completo (4/4)</span>
+        </div>
+        <p class="stage-desc">Baseline completado: Felipe (banca), Camila (retail), Rodrigo (industria), Andrea (comercial KI). 3 hallazgos diferenciales identificados.</p>
+        <div class="stage-links">
+          <a href="html/06-testeos-visual.html" class="link-btn primary"><span class="link-btn-icon">↗</span> Ver entregable</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">
+      <div class="meta-key">Proyecto</div>
+      <div class="meta-val">Reposicionamiento totalexperience.cl</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-key">Cliente</div>
+      <div class="meta-val">KI Technologies</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-key">Etapa actual</div>
+      <div class="meta-val">05 Arquitectura · Lista para activar</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-key">Próximo hito</div>
+      <div class="meta-val">Activar 05 Arquitectura → 06 Contenido + 07 Diseño UI (paralelo)</div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

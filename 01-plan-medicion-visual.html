@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Medición v1 · Total Experience</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #FFFFFF; --surface: #FAFAF9; --fg: #0A0A0A; --fg2: #5A5A5A;
+    --border: #E0E0DE; --soft: #F5F5F3;
+    --green: #1A7A4A; --green-bg: #EBF5EF;
+    --amber: #B45309; --amber-bg: #FDF6EC;
+    --red: #B91C1C; --red-bg: #FEF2F2;
+    --blue: #1D4ED8; --blue-bg: #EFF6FF;
+    --purple: #6D28D9; --purple-bg: #F5F3FF;
+    --gray: #888888; --gray-bg: #F5F5F3;
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); font-size: 14px; line-height: 1.6; }
+
+  .ki-bar { background: #0A0A0A; padding: 12px 28px; display: flex; align-items: center; gap: 16px; }
+  .ki-bar-sep { width: 1px; height: 24px; background: #333; }
+  .ki-bar-title { color: #CCC; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
+  .ki-bar-right { margin-left: auto; }
+  .ki-bar-back { color: #666; font-size: 11px; font-family: 'Manrope', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: color .15s; }
+  .ki-bar-back:hover { color: #CCC; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 44px 24px 100px; }
+
+  .doc-tag { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--fg2); margin-bottom: 8px; }
+  .doc-title { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+  .doc-subtitle { font-size: 14px; color: var(--fg2); margin-bottom: 20px; }
+  .doc-meta { display: flex; flex-wrap: wrap; gap: 20px; padding: 14px 18px; background: var(--soft); border-radius: 8px; border: 1px solid var(--border); margin-bottom: 36px; }
+  .doc-meta-label { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 2px; }
+  .doc-meta-val { font-size: 12px; font-weight: 500; }
+
+  .section { margin-bottom: 52px; }
+  .section-label { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 10px; }
+  .section-title { font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+  .prose { font-size: 13px; color: var(--fg2); line-height: 1.75; margin-bottom: 12px; }
+  .prose strong { color: var(--fg); font-weight: 600; }
+
+  /* Marco callout */
+  .marco-box { background: #0A0A0A; color: #FFF; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; }
+  .marco-box p { font-size: 14px; line-height: 1.75; color: #CCC; }
+  .marco-box strong { color: #FFF; }
+
+  /* KPI primario card */
+  .kpi-card { border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+  .kpi-card-header { display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .kpi-num-badge { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800; min-width: 28px; height: 28px; border-radius: 50%; background: var(--fg); color: #FFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .kpi-card-meta { flex: 1; }
+  .kpi-card-eyebrow { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 4px; }
+  .kpi-card-title { font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .kpi-card-question { font-size: 12px; color: var(--fg2); font-style: italic; }
+  .kpi-card-body { padding: 20px; }
+
+  /* Metric block */
+  .metric-block { background: var(--blue-bg); border: 1.5px solid #BFDBFE; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; }
+  .metric-label { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+  .metric-name { font-size: 13px; font-weight: 600; color: var(--fg); margin-bottom: 10px; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead th { background: var(--fg); color: #FFF; font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 7px 12px; text-align: left; }
+  tbody td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--soft); }
+  td strong { font-weight: 600; }
+
+  .sub-block { margin-bottom: 16px; }
+  .sub-label { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 6px; }
+  .sub-list { list-style: none; font-size: 12px; color: var(--fg2); display: flex; flex-direction: column; gap: 4px; }
+  .sub-list li { padding-left: 14px; text-indent: -14px; }
+  .sub-list li::before { content: "→ "; color: var(--fg); font-weight: 600; }
+
+  .umbral-list { list-style: none; font-size: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .umbral-list li { padding: 8px 12px; border-radius: 6px; background: #FFFBEB; border-left: 3px solid var(--amber); color: var(--fg2); }
+  .umbral-list li strong { color: var(--amber); }
+
+  /* Baseline row highlight */
+  .row-highlight td { font-weight: 600; background: var(--soft); }
+
+  /* Context section (lighter) */
+  .context-section { background: var(--soft); border: 1.5px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .context-section .context-note { font-size: 12px; color: var(--fg2); font-style: italic; margin-top: 12px; }
+
+  /* Support metrics grid */
+  .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .support-grid { grid-template-columns: 1fr; } }
+  .support-card { background: var(--soft); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .support-card-title { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .support-card-sub { font-size: 11px; color: var(--fg2); line-height: 1.5; }
+
+  /* Tags */
+  .tag { display: inline-flex; align-items: center; font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 99px; white-space: nowrap; letter-spacing: .04em; }
+  .tag-c { background: var(--green-bg); color: var(--green); }
+  .tag-s { background: var(--amber-bg); color: var(--amber); }
+
+  /* Steps */
+  .steps-list { list-style: none; display: flex; flex-direction: column; gap: 10px; counter-reset: steps; }
+  .steps-list li { counter-increment: steps; display: flex; gap: 14px; align-items: flex-start; font-size: 13px; color: var(--fg2); line-height: 1.6; }
+  .steps-list li::before { content: counter(steps); font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 800; min-width: 24px; height: 24px; border-radius: 50%; background: var(--fg); color: #FFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .steps-list li strong { color: var(--fg); }
+
+  /* Summary table */
+  .prio-high td:first-child { color: var(--red); font-weight: 700; }
+  .prio-med td:first-child { color: var(--amber); font-weight: 700; }
+  .prio-low td:first-child { color: var(--green); font-weight: 700; }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  .doc-footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; gap: 24px; flex-wrap: wrap; }
+  .doc-footer-key { font-family: 'Manrope', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fg2); margin-bottom: 2px; }
+  .doc-footer-val { font-size: 11px; color: var(--fg2); }
+
+  code { font-family: monospace; font-size: 11px; background: var(--soft); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="ki-bar">
+  <a href="../index.html"><img src="https://www.kitechnologies.com/wp-content/uploads/2024/10/logo-kitechnologies-white.svg" alt="KI Technologies" style="height:28px;width:auto;display:block;"></a>
+  <div class="ki-bar-sep"></div>
+  <span class="ki-bar-title">Total Experience</span>
+  <div class="ki-bar-right">
+    <a href="../index.html" class="ki-bar-back">← Volver al proyecto</a>
+  </div>
+</div>
+
+<main>
+
+  <div class="doc-tag">01 · Estrategia de Producto</div>
+  <h1 class="doc-title">Plan de Medición v1</h1>
+  <p class="doc-subtitle">KPIs primarios, métricas de soporte y contexto de negocio para el rediseño de totalexperience.cl</p>
+
+  <div class="doc-meta">
+    <div class="doc-meta-item">
+      <div class="doc-meta-label">Versión</div>
+      <div class="doc-meta-val">1.0</div>
+    </div>
+    <div class="doc-meta-item">
+      <div class="doc-meta-label">Fecha</div>
+      <div class="doc-meta-val">2026-10-01</div>
+    </div>
+    <div class="doc-meta-item">
+      <div class="doc-meta-label">Insumos</div>
+      <div class="doc-meta-val">HubSpot CRM · GA4 · Entrevista Paola · Síntesis v2 · Testeo baseline 4 arquetipos</div>
+    </div>
+    <div class="doc-meta-item">
+      <div class="doc-meta-label">Operacionaliza</div>
+      <div class="doc-meta-val">08 · Métricas (fuentes reales, herramientas, umbrales definitivos)</div>
+    </div>
+  </div>
+
+  <!-- MARCO -->
+  <div class="section">
+    <div class="section-label">Marco de medición</div>
+    <div class="marco-box">
+      <p>El sitio tiene un trabajo concreto: que el visitante <strong>entienda qué hace KI</strong>, <strong>reconozca su propio problema</strong> en lo que KI describe, y <strong>sienta la confianza suficiente</strong> para dar el siguiente paso.</p>
+      <p style="margin-top:12px;">Los KPIs primarios miden exactamente eso. Las métricas comerciales — deals, ciclos, conversiones — son contexto de negocio útil para ver tendencias, pero <strong>no son el termómetro del sitio</strong>: el ciclo comercial depende de muchos factores más allá de lo que el sitio puede controlar.</p>
+    </div>
+  </div>
+
+  <!-- KPIs PRIMARIOS -->
+  <div class="section">
+    <div class="section-label">Lo que el sitio controla directamente</div>
+    <h2 class="section-title">KPIs primarios</h2>
+
+    <!-- KPI 1 -->
+    <div class="kpi-card">
+      <div class="kpi-card-header">
+        <div class="kpi-num-badge">1</div>
+        <div class="kpi-card-meta">
+          <div class="kpi-card-eyebrow">KPI primario</div>
+          <div class="kpi-card-title">Comprensión</div>
+          <div class="kpi-card-question">¿El visitante sale del sitio con una imagen clara de qué hace KI y para qué tipo de problemas sirve?</div>
+        </div>
+      </div>
+      <div class="kpi-card-body">
+        <p class="prose">Este es el KPI más importante. Si el sitio no logra esto, todo lo demás falla. El punto de partida es claro: en el testeo baseline con los 4 arquetipos, la satisfacción fue <strong>2/5 universal</strong> y ningún prospecto reconoció una propuesta de valor en el sitio actual.</p>
+
+        <div class="metric-block">
+          <div class="metric-label">KPI</div>
+          <div class="metric-name">% de visitantes que puede describir qué hace KI con sus propias palabras, post-navegación</div>
+          <div class="table-wrap" style="margin-bottom:0;">
+            <table>
+              <thead><tr><th>Referencia</th><th>Dato</th></tr></thead>
+              <tbody>
+                <tr><td>Baseline</td><td>Satisfacción 2/5 · 0% reconoció propuesta de valor <span class="tag tag-c">[C — testeo baseline 4 arquetipos]</span></td></tr>
+                <tr><td>Meta post-rediseño</td><td>&gt;4/5 en testeos · &gt;80% describe qué hace KI correctamente <span class="tag tag-s">[S]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Cómo se mide</div>
+          <ul class="sub-list">
+            <li>Testeos de usabilidad con arquetipos (o agentes IA simulando arquetipos): pregunta directa post-navegación "¿qué hace KI?" y "¿cómo podría ayudarte?"</li>
+            <li>Escala de satisfacción 1–5 post-testeo — misma metodología que el baseline para comparación directa</li>
+            <li>Comparar resultado con las 23/23 hipótesis de problema confirmadas en el baseline</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Umbrales de decisión</div>
+          <ul class="umbral-list">
+            <li><strong>Si la satisfacción en testeos no sube a &gt;3/5</strong> → revisar hero copy y propuesta de valor en el Home antes de avanzar</li>
+            <li><strong>Si mejora la satisfacción pero no la comprensión</strong> → el sitio gusta pero no comunica — revisar claridad del mensaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI 2 -->
+    <div class="kpi-card">
+      <div class="kpi-card-header">
+        <div class="kpi-num-badge">2</div>
+        <div class="kpi-card-meta">
+          <div class="kpi-card-eyebrow">KPI primario</div>
+          <div class="kpi-card-title">Reconocimiento del problema propio</div>
+          <div class="kpi-card-question">¿El visitante encontró su desafío dentro de los que KI describe?</div>
+        </div>
+      </div>
+      <div class="kpi-card-body">
+        <p class="prose">La nueva arquitectura organiza el sitio por tipo de problema — los 3 Mundos del Decisor de Negocio en scope v1 (Experiencia, Tecnología, Innovación · DEC-I). Si funciona, el comportamiento de navegación lo muestra: el visitante hace click en el Mundo que representa su desafío real.</p>
+
+        <div class="metric-block">
+          <div class="metric-label">KPI</div>
+          <div class="metric-name">% de sesiones de prospectos que hace click en al menos uno de los 3 Mundos del Nivel 1</div>
+          <div class="table-wrap" style="margin-bottom:0;">
+            <table>
+              <thead><tr><th>Referencia</th><th>Dato</th></tr></thead>
+              <tbody>
+                <tr><td>Baseline</td><td>Sin dato — la arquitectura actual no tiene entrada por problema <span class="tag tag-c">[C]</span></td></tr>
+                <tr><td>Meta post-rediseño</td><td>&gt;50% de sesiones de prospectos hace click en al menos 1 Mundo <span class="tag tag-s">[S]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Cómo se mide</div>
+          <ul class="sub-list">
+            <li>GA4: eventos de click en cada uno de los 3 Mundos del Nivel 1 (Experiencia, Tecnología, Innovación)</li>
+            <li>GA4: rutas de navegación Home → Mundo X → Capacidad (¿la gente baja por la arquitectura?)</li>
+            <li>GA4: tiempo promedio en páginas de Mundo — si el visitante lee, encontró algo relevante</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Umbrales de decisión</div>
+          <ul class="umbral-list">
+            <li><strong>Si los clicks en Mundos son &lt;20% de sesiones</strong> → el Nivel 1 no está funcionando como entrada — revisar nombres de los Mundos y visibilidad en el Home</li>
+            <li><strong>Si un Mundo concentra &gt;60% de los clicks</strong> → analizar si los otros 2 tienen vocabulario de síntoma suficientemente claro</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI 3 -->
+    <div class="kpi-card">
+      <div class="kpi-card-header">
+        <div class="kpi-num-badge">3</div>
+        <div class="kpi-card-meta">
+          <div class="kpi-card-eyebrow">KPI primario</div>
+          <div class="kpi-card-title">Utilidad para Comercial</div>
+          <div class="kpi-card-question">¿El sitio le sirve a Comercial para abrir y conducir conversaciones con prospectos?</div>
+        </div>
+      </div>
+      <div class="kpi-card-body">
+        <p class="prose">Hoy el sitio aparece en ~13% de los deals activos (7/54), sin estar diseñado para ese rol. El rediseño lo diseña deliberadamente para ese uso — y hay que medir si efectivamente lo adoptan más.</p>
+
+        <div class="metric-block">
+          <div class="metric-label">KPI</div>
+          <div class="metric-name">% de deals activos en HubSpot donde el sitio fue compartido o usado en reunión</div>
+          <div class="table-wrap" style="margin-bottom:0;">
+            <table>
+              <thead><tr><th>Referencia</th><th>Dato</th></tr></thead>
+              <tbody>
+                <tr><td>Baseline</td><td>~13% (7/54 deals, revisión manual de notas) <span class="tag tag-c">[C — sin tracking sistemático]</span></td></tr>
+                <tr><td>Meta a 6 meses</td><td>&gt;30% <span class="tag tag-s">[S]</span></td></tr>
+                <tr><td>Meta a 12 meses</td><td>&gt;50% <span class="tag tag-s">[S]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Cómo se mide</div>
+          <ul class="sub-list">
+            <li>HubSpot: revisión periódica de notas de deals (búsqueda de keywords "Total Experience", "sitio")</li>
+            <li><strong>Entrevista trimestral con Comercial</strong> (3-5 preguntas cualitativas): ¿cambió algo en las conversaciones con prospectos? ¿el prospecto llegó más informado? ¿el sitio ahorró tiempo de explicación? ¿qué páginas compartiste más?</li>
+            <li>Encuesta NPS trimestral a Comercial: utilidad del sitio como herramienta de prospección (1–10 + pregunta abierta)</li>
+            <li>UTM tracking: sesiones originadas desde links que Comercial comparte con prospectos</li>
+          </ul>
+        </div>
+
+        <div class="sub-block">
+          <div class="sub-label">Umbrales de decisión</div>
+          <ul class="umbral-list">
+            <li><strong>Si el % no sube en 3 meses</strong> → sesión de feedback con Comercial: ¿el sitio es más útil que el anterior?</li>
+            <li><strong>Si NPS interno &lt;6</strong> → sesión de co-diseño con el equipo para identificar qué falta</li>
+            <li><strong>Si el uso sube pero la percepción de calidad de conversaciones no mejora</strong> → el problema es de capacitación, no de diseño del sitio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÉTRICAS DE SOPORTE -->
+  <div class="section">
+    <div class="section-label">Diagnóstico de comportamiento</div>
+    <h2 class="section-title">Métricas de soporte</h2>
+    <p class="prose">No son KPIs de éxito del sitio, pero ayudan a identificar dónde hay fricción y qué mejorar.</p>
+
+    <div class="support-grid">
+      <div class="support-card">
+        <div class="support-card-title">Bounce rate en Home</div>
+        <div class="support-card-sub">Si la primera pantalla conecta. Baseline: alto (8s promedio, alta salida). Levantar dato exacto antes del lanzamiento.</div>
+      </div>
+      <div class="support-card">
+        <div class="support-card-title">Profundidad de navegación</div>
+        <div class="support-card-sub">% sesiones con ≥2 páginas visitadas. Meta: &gt;35% a 3m [S]. Proxy de si la arquitectura invita a avanzar.</div>
+      </div>
+      <div class="support-card">
+        <div class="support-card-title">Scroll depth en Home</div>
+        <div class="support-card-sub">Qué secciones del Home se leen. GA4 eventos al 25%, 50%, 75%, 100%. Sin baseline — medir desde el lanzamiento.</div>
+      </div>
+      <div class="support-card">
+        <div class="support-card-title">Mobile vs. Desktop</div>
+        <div class="support-card-sub">43% del tráfico es mobile, mayormente desde apps de mensajería. Meta: brecha de bounce rate &lt;15% entre dispositivos [S].</div>
+      </div>
+      <div class="support-card">
+        <div class="support-card-title">Tiempo en páginas de Nivel 2</div>
+        <div class="support-card-sub">Si los visitantes leen el contenido de Capacidades. Señal de que la profundidad del Nivel 2 es relevante.</div>
+      </div>
+      <div class="support-card">
+        <div class="support-card-title">Rutas Nivel 1 → Nivel 2</div>
+        <div class="support-card-sub">% de sesiones que navegan de un Mundo a una Capacidad. Valida si el embudo de 3 niveles funciona.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEXTO DE NEGOCIO -->
+  <div class="section">
+    <div class="section-label">Tendencias de negocio (no atribuibles directamente al sitio)</div>
+    <h2 class="section-title">Contexto de negocio</h2>
+    <p class="prose">Estas métricas reflejan resultados comerciales más amplios. Si los KPIs primarios mejoran, es razonable esperar que estas tendencias también mejoren — pero la causalidad es indirecta y mediada por muchos factores externos al sitio.</p>
+
+    <div class="context-section">
+      <div class="table-wrap" style="margin-bottom:0;">
+        <table>
+          <thead><tr><th>Indicador</th><th>Baseline</th><th>Fuente</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Días primera reunión → propuesta técnica</td>
+              <td><strong>~18 días promedio · 16 días mediana</strong> <span class="tag tag-c">[C — 5 casos]</span></td>
+              <td>Registro manual Comercial</td>
+            </tr>
+            <tr>
+              <td>Deals inbound por trimestre atribuibles al sitio</td>
+              <td>~1–2/semestre <span class="tag tag-s">[S]</span></td>
+              <td>HubSpot estimado</td>
+            </tr>
+            <tr>
+              <td>Valor promedio deal cerrado ganado</td>
+              <td>~US$16.040 <span class="tag tag-s">[S — solo 2 deals]</span></td>
+              <td>HubSpot CRM</td>
+            </tr>
+            <tr>
+              <td>% deals vía agencia externa vs. inbound</td>
+              <td>85% agencia / 15% inbound <span class="tag tag-c">[C]</span></td>
+              <td>HubSpot CRM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="context-note">Nota sobre el ciclo de propuesta: la variabilidad real es alta (7–33 días en los 5 casos). El sitio puede reducir el tiempo de educación genérica en la reunión, pero la complejidad del alcance seguirá siendo el factor dominante en el tiempo total.</p>
+    </div>
+  </div>
+
+  <!-- BASELINES -->
+  <div class="section">
+    <div class="section-label">Situación actual</div>
+    <h2 class="section-title">Baselines disponibles</h2>
+    <p class="prose">Todos los baselines críticos están disponibles para comparar post-lanzamiento.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>KPI / Métrica</th><th>Baseline</th><th>Fuente</th><th>Certeza</th></tr></thead>
+        <tbody>
+          <tr class="row-highlight"><td>Satisfacción post-testeo de arquetipos</td><td>2/5 universal</td><td>Testeo baseline 4 arquetipos</td><td><span class="tag tag-c">[C]</span></td></tr>
+          <tr><td>% deals con sitio usado/compartido</td><td>~13% (7/54)</td><td>HubSpot notas (revisión manual)</td><td><span class="tag tag-c">[C]</span></td></tr>
+          <tr><td>Días primera reunión → propuesta</td><td>~18 días prom. / 16 días mediana</td><td>5 casos confirmados</td><td><span class="tag tag-c">[C]</span></td></tr>
+          <tr><td>Sesiones orgánicas/año</td><td>~82</td><td>GA4</td><td><span class="tag tag-c">[C]</span></td></tr>
+          <tr><td>% tráfico mobile</td><td>43%</td><td>GA4</td><td><span class="tag tag-c">[C]</span></td></tr>
+          <tr><td>Bounce rate exacto por página</td><td>Pendiente levantar</td><td>GA4 (levantar antes del lanzamiento)</td><td><span class="tag tag-s">[S]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PRÓXIMOS PASOS -->
+  <div class="section">
+    <div class="section-label">Antes del lanzamiento</div>
+    <h2 class="section-title">Pasos instrumentales</h2>
+    <ol class="steps-list">
+      <li><div><strong>Levantar baseline exacto en GA4</strong> — bounce rate por página, % sesiones con &gt;1 página, tiempo promedio y scroll depth en Home. Fotografía del sitio actual antes de cualquier cambio.</div></li>
+      <li><div><strong>Protocolo de visita previa con Comercial</strong> — acordar que, antes de cada primera reunión, Comercial comparte el sitio al prospecto con un UTM link (<code>?utm_source=comercial&utm_medium=previo-reunion</code>). Permite rastrear en GA4 quién llegó informado a la reunión.</div></li>
+      <li><div><strong>Protocolo UTM general para Comercial</strong> — links con parámetros en todos los contextos de compartir el sitio: <code>?utm_source=comercial&utm_medium=whatsapp&utm_campaign=prospecting</code>. Permite rastrear sesiones de Sales Enablement en GA4.</div></li>
+      <li><div><strong>Testeo post-lanzamiento</strong> — replicar la metodología del baseline (mismos arquetipos o equivalentes) para medir si comprensión y satisfacción mejoraron. Este testeo es el medidor principal del KPI 1.</div></li>
+    </ol>
+  </div>
+
+  <div class="doc-footer">
+    <div class="doc-footer-item">
+      <div class="doc-footer-key">Sesión autora</div>
+      <div class="doc-footer-val">01 · Estrategia de Producto</div>
+    </div>
+    <div class="doc-footer-item">
+      <div class="doc-footer-key">Siguiente paso</div>
+      <div class="doc-footer-val">08 · Métricas operacionaliza con fuentes reales y umbrales definitivos</div>
+    </div>
+    <div class="doc-footer-item">
+      <div class="doc-footer-key">Convenciones</div>
+      <div class="doc-footer-val"><span class="tag tag-c">[C]</span> confirmado/observado &nbsp; <span class="tag tag-s">[S]</span> supuesto — validar con datos reales</div>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
