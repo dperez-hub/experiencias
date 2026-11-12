@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00 · Contexto — Total Experience</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg:      #FFFFFF;
+    --fg:      #0A0A0A;
+    --fg2:     #5A5A5A;
+    --border:  #E0E0DE;
+    --soft:    #F5F5F3;
+    --violet:  #7418F0;
+    --teal:    #0097A7;
+    --orange:  #FC7A05;
+    --gray:    #888888;
+    --gray-bg: #F5F5F3;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); font-size: 14px; line-height: 1.6; }
+
+  /* Barra KI superior */
+  .ki-bar { background: #0A0A0A; padding: 12px 24px; display: flex; align-items: center; gap: 14px; }
+  .ki-bar img { height: 32px; width: auto; }
+  .ki-bar a { display: flex; align-items: center; text-decoration: none; }
+  .ki-bar a:hover img { opacity: .7; }
+  .ki-bar-sep { width: 1px; height: 22px; background: #333; }
+  .ki-bar-label { color: #888; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; font-family: 'Manrope', sans-serif; }
+
+  /* Contenido */
+  .content { max-width: 880px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* Header del entregable */
+  .header-tag { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg2); margin-bottom: 6px; font-family: 'Manrope', sans-serif; }
+  h1 { font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 4px; line-height: 1.2; }
+  .sub { font-size: 13px; color: var(--fg2); margin-bottom: 32px; }
+
+  /* Secciones */
+  .section { margin-bottom: 32px; }
+  .sec-label { font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--violet); margin-bottom: 12px; }
+  h2 { font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+
+  /* Cards genéricos */
+  .card { background: var(--soft); border-radius: 10px; padding: 16px 18px; }
+  .card h3 { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+  .card p { font-size: 12px; color: var(--fg2); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+
+  /* Card con borde (destacado) */
+  .card-bordered { border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .card-bordered.highlight { border-color: var(--fg); }
+
+  /* Alertas y tensiones */
+  .alert { border-left: 3px solid var(--orange); background: #FFF4EC; padding: 14px 16px; border-radius: 0 8px 8px 0; margin-bottom: 10px; }
+  .alert-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; font-family: 'Manrope', sans-serif; }
+  .alert p { font-size: 13px; margin: 0; }
+
+  /* Tablas */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  thead tr { background: var(--soft); }
+  th { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--fg); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--fg); line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+
+  /* Datos clave / KPIs */
+  .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat-card { flex: 1; min-width: 130px; background: var(--soft); border-top: 3px solid var(--teal); border-radius: 0 0 8px 8px; padding: 18px 20px; }
+  .stat-value { font-family: 'Manrope', sans-serif; font-size: 28px; font-weight: 800; color: var(--teal); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-label { font-size: 12px; color: var(--gray); margin-top: 5px; }
+
+  /* Tags */
+  .tag { display: inline-block; background: var(--soft); border: 1px solid var(--border); color: var(--fg2); font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+
+  /* Badges de estado */
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-family: 'Manrope', sans-serif; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+  .badge-done    { background: var(--teal);   color: #FFF; }
+  .badge-pending { background: var(--orange); color: #FFF; }
+  .badge-wait    { background: var(--gray-bg); color: var(--gray); }
+
+  /* Botones */
+  .btn { display: inline-flex; align-items: center; gap: 5px; text-decoration: none; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 6px; border: 1.5px solid var(--violet); background: var(--violet); color: #FFF; transition: opacity .12s; }
+  .btn:hover { opacity: .85; }
+  .btn-outline { background: transparent; color: var(--violet); border-color: var(--violet); }
+  .btn-outline:hover { opacity: .75; }
+
+  /* Divisor */
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+  /* Decisiones propuestas */
+  .decisions { background: #F4EEFE; border: 1px solid #C9A8F8; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .decisions h3 { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--violet); margin-bottom: 12px; }
+  .decisions ol { padding-left: 18px; }
+  .decisions li { font-size: 13px; margin-bottom: 6px; line-height: 1.5; }
+
+  /* Preguntas para el master */
+  .questions { border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
+  .questions h3 { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--fg2); margin-bottom: 12px; }
+  .questions ol { padding-left: 18px; }
+  .questions li { font-size: 13px; margin-bottom: 6px; color: var(--fg2); line-height: 1.5; }
+
+  /* Estilos adicionales de contenido */
+  p { font-size: 13px; color: var(--fg2); margin-bottom: 10px; line-height: 1.6; }
+  p strong { color: var(--fg); }
+  ul { padding-left: 18px; margin-bottom: 10px; }
+  ul li { font-size: 13px; color: var(--fg2); margin-bottom: 4px; line-height: 1.5; }
+  ul li strong { color: var(--fg); }
+
+  /* Restricciones */
+  .restrictions { background: var(--soft); border-radius: 10px; padding: 16px 18px; }
+  .restrictions ul { margin-bottom: 0; }
+  .restrictions li { font-size: 12px; color: var(--fg2); margin-bottom: 6px; }
+  .restrictions li strong { color: var(--fg); }
+
+  /* Insumos table wrapper */
+  .table-wrapper { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .table-wrapper table { border: none; }
+
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .stat-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ki-bar">
+  <a href="../index.html">
+    <img src="https://www.kitechnologies.com/wp-content/uploads/2024/10/logo-kitechnologies-white.svg" alt="KI Technologies">
+  </a>
+  <div class="ki-bar-sep"></div>
+  <span class="ki-bar-label">Total Experience · 00 Contexto y Discovery</span>
+</div>
+
+<div class="content">
+  <div class="header-tag">Sesión 00 · 2026-09-28</div>
+  <h1>Contexto y Discovery — Total Experience</h1>
+  <div class="sub">Sesión 00 · 2026-09-28</div>
+
+  <!-- 1. Resumen del proyecto -->
+  <div class="section">
+    <div class="sec-label">01 · Resumen del proyecto</div>
+    <h2>De qué trata este proyecto</h2>
+    <p><strong>Total Experience</strong> es un sitio especializado de KI Technologies (totalexperience.cl), distinto del sitio corporativo (kitechnologies.com). Fue construido originalmente como plataforma educativa interna —para alinear formas de trabajo y formar nuevos UX— y ha derivado hacia su uso principal actual: <strong>apoyo comercial</strong>, compartido a clientes y prospectos para mostrar qué hace KI y cómo trabaja.</p>
+
+    <div class="card-grid" style="margin-top: 14px;">
+      <div class="card">
+        <h3>Problema a resolver</h3>
+        <p>El sitio cuenta una historia más pequeña que la capacidad real de KI. Se presenta como repositorio metodológico de UX, cuando KI opera como consultora integral de experiencia, estrategia, tecnología, datos y producto. El gap genera una brecha de credibilidad y oportunidad comercial.</p>
+      </div>
+      <div class="card">
+        <h3>Alcance del proyecto</h3>
+        <p>Reposicionamiento conceptual, narrativo y de arquitectura del sitio. No es rediseño visual desde cero ni migración al sitio corporativo. El contenido técnico existente se conserva; lo que cambia es la capa superior que lo organiza y le da sentido.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Audiencias -->
+  <div class="section">
+    <div class="sec-label">02 · Audiencias identificadas</div>
+    <h2>Quiénes usan el sitio y para qué</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Prioridad</th>
+            <th>Audiencia</th>
+            <th>Qué necesita</th>
+            <th>Cómo llega</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-wait">1</span></td>
+            <td><strong>Equipos internos de KI</strong></td>
+            <td>Consultar métodos, herramientas y prácticas</td>
+            <td>Acceso directo por conocimiento previo</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-wait">2</span></td>
+            <td><strong>Clientes / prospectos</strong></td>
+            <td>Entender cómo piensa y trabaja KI (no aprender UX). Validar credibilidad antes de contratar</td>
+            <td>Comercial les comparte el link</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-wait">3</span></td>
+            <td><strong>Comercial KI</strong></td>
+            <td>Entender qué puede ofrecer, frente a qué problema llamar al equipo de Experience, qué capacidades existen, qué resultados esperar</td>
+            <td>Uso interno recurrente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 10px;">
+      <div class="alert">
+        <div class="alert-label">Alerta de audiencia</div>
+        <p>Las tres audiencias tienen igual peso. El sitio actual está orientado a quienes quieren aprender UX y no está optimizado para ninguna de ellas.</p>
+      </div>
+      <div class="alert">
+        <div class="alert-label">Alerta de audiencia</div>
+        <p>La audiencia 2 llega sin contexto previo; el sitio actual los recibe con jerga técnica UX desde la primera pantalla.</p>
+      </div>
+      <div class="alert">
+        <div class="alert-label">Alerta de audiencia · requiere validación</div>
+        <p>La audiencia 3 tiene necesidades de consulta muy distintas a las de 1 y 2; su flujo puede no ser compatible con el nuevo foco.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Qué existe hoy -->
+  <div class="section">
+    <div class="sec-label">03 · Sitio actual</div>
+    <h2>Qué existe hoy en totalexperience.cl</h2>
+
+    <div class="card" style="margin-bottom: 14px;">
+      <h3>Estructura de navegación observada</h3>
+      <p>INICIO · ANÁLISIS DEL NEGOCIO · INVESTIGACIÓN · ARQUITECTURA Y PROTOTIPOS · TESTEOS · MEDICIÓN · ARTÍCULOS · ARTEFACTOS</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card-bordered">
+        <h3 style="font-family:'Manrope',sans-serif; font-size:13px; font-weight:800; margin-bottom:6px;">Foco actual</h3>
+        <p style="font-size:12px; color:var(--fg2);">Biblioteca organizada por etapas del proceso UX. Tono educativo / técnico. Sin entrada por problema de negocio. Sin mención de estrategia, producto, tecnología o datos como dimensiones propias.</p>
+      </div>
+      <div class="card-bordered">
+        <h3 style="font-family:'Manrope',sans-serif; font-size:13px; font-weight:800; margin-bottom:6px;">Características observadas</h3>
+        <ul style="padding-left:16px; margin:0;">
+          <li style="font-size:12px; color:var(--fg2); margin-bottom:4px;">Versión bilingüe ES/EN con botón de cambio en header</li>
+          <li style="font-size:12px; color:var(--fg2); margin-bottom:4px;">Footer vincula con kitechnologies.com</li>
+          <li style="font-size:12px; color:var(--fg2); margin-bottom:4px;">Sección de Artículos con estudios de caso</li>
+          <li style="font-size:12px; color:var(--fg2);">LinkedIn: linkedin.com/company/totalexperiencecompany/</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Qué quiere ser -->
+  <div class="section">
+    <div class="sec-label">04 · Cambio de foco</div>
+    <h2>Qué quiere ser el sitio</h2>
+
+    <div class="table-wrapper" style="margin-bottom: 16px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Antes</th>
+            <th>Ahora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Usuario → Interacción → Interfaz → Usabilidad</td>
+            <td>Personas + Negocio + Producto + Servicios + Procesos + Tecnología + Datos</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-bottom:16px;"><strong>Nueva propuesta de valor:</strong> KI como consultora integral que aborda desafíos de experiencia de forma completa —no solo diseño de interfaces— conectando estrategia, investigación, producto, procesos, tecnología, datos y medición.</p>
+
+    <div class="sec-label" style="margin-top:20px;">Nueva estructura conceptual — 7 dimensiones</div>
+    <div class="table-wrapper" style="margin-bottom: 16px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Dimensión</th>
+            <th>Pregunta que responde</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Estrategia</strong></td>
+            <td>¿Qué queremos conseguir? ¿Qué problema resolver?</td>
+          </tr>
+          <tr>
+            <td><strong>Experiencia</strong></td>
+            <td>¿Qué necesitan, esperan y hacen las personas?</td>
+          </tr>
+          <tr>
+            <td><strong>Producto y servicio</strong></td>
+            <td>¿Qué propuesta o solución debemos crear o evolucionar?</td>
+          </tr>
+          <tr>
+            <td><strong>Procesos</strong></td>
+            <td>¿Qué debe ocurrir para que la experiencia funcione?</td>
+          </tr>
+          <tr>
+            <td><strong>Tecnología</strong></td>
+            <td>¿Qué hace viable y escalable la solución?</td>
+          </tr>
+          <tr>
+            <td><strong>Medición</strong></td>
+            <td>¿Cómo sabemos si estamos generando valor?</td>
+          </tr>
+          <tr>
+            <td><strong>Evolución</strong></td>
+            <td>¿Qué debemos aprender, priorizar y mejorar?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-bottom: 16px;"><strong>IA y datos:</strong> capacidades transversales a todo el modelo, no una dimensión separada.</p>
+
+    <div class="sec-label">Nueva arquitectura de navegación propuesta — 3 niveles</div>
+    <div class="card-grid" style="margin-bottom: 16px;">
+      <div class="card">
+        <h3>Nivel 1 — Problemas</h3>
+        <p>Entrada por tipo de desafío: entender un problema, crear/evolucionar un producto, mejorar experiencia, validar, mejorar servicio, ordenar procesos, incorporar IA, medir</p>
+      </div>
+      <div class="card">
+        <h3>Nivel 2 — Capacidades</h3>
+        <p>Research · Product Design · Service Design · UX/UI · Content · Design Systems · DesignOps · Métricas · Analytics · IA aplicada</p>
+      </div>
+      <div class="card">
+        <h3>Nivel 3 — Métodos y herramientas</h3>
+        <p>Todo el contenido existente reorganizado: entrevistas, personas, journey maps, cardsorting, testing, heurísticas, SUS, NPS, etc.</p>
+      </div>
+    </div>
+
+    <div class="sec-label">Restricciones explícitas declaradas</div>
+    <div class="restrictions">
+      <ul>
+        <li>No convertir en sitio corporativo de KI (ese es kitechnologies.com)</li>
+        <li>No eliminar el contenido técnico existente; solo darle una capa superior</li>
+        <li>No reemplazar UX por Product Design (ampliar, no cambiar etiqueta)</li>
+        <li>No hacer de la IA el tema central del sitio</li>
+        <li>Siempre hablar de KI como un todo, no de "el área de Experiencia de KI"</li>
+        <li>Vínculo con kitechnologies.com: discreto, solo en header/footer</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5. Contexto PDF -->
+  <div class="section">
+    <div class="sec-label">05 · Insumo PDF — Transición de roles</div>
+    <h2>Contexto: TransicionRoles.pdf</h2>
+    <p>El PDF (fuente: dugartemaria.com) aborda el costo de mantener roles desactualizados y la importancia del diseño estratégico. Es relevante para el proyecto porque:</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Evolución del rol</h3>
+        <p>Documenta la transición de UX/UI (foco en interfaces) a Product Designer (visión E2E, decisiones de negocio, métricas, mejora continua) que KI quiere reflejar en Total Experience.</p>
+      </div>
+      <div class="card">
+        <h3>Contexto IA en 2026</h3>
+        <p>La confianza como problema central de diseño; adaptabilidad, estrategia y discernimiento como habilidades clave.</p>
+      </div>
+      <div class="card">
+        <h3>Utilidad para sesiones</h3>
+        <p>Puede ser insumo para la sesión 02 (Investigación) como referencia sobre el estado del mercado de roles en diseño.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Tensiones y alertas -->
+  <div class="section">
+    <div class="sec-label">06 · Tensiones y alertas</div>
+    <h2>Riesgos a considerar</h2>
+
+    <div class="alert">
+      <div class="alert-label">Alerta 1 — Audiencia interna sin flujo claro</div>
+      <p>La audiencia 3 (equipos internos de KI) usa el sitio para consultar métodos. La nueva arquitectura por problemas está optimizada para Comercial y clientes. Riesgo de perder utilidad interna sin un punto de acceso directo al Nivel 3.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Alerta 2 — Versión en inglés: alcance desconocido</div>
+      <p>El sitio tiene botón de cambio de idioma (ES/EN). No está claro si la versión en inglés está completa, parcialmente traducida o desactualizada. Relevante si hay clientes o prospectos internacionales. Requiere inventario.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Alerta 3 — Versión mobile: no mencionada en el brief</div>
+      <p>El brief no menciona diseño mobile. La navegación actual tiene burger menu, sugiriendo versión responsive, pero no se evaluó su calidad. Si Comercial comparte el link desde un celular, la experiencia puede ser deficiente.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Alerta 4 — Contenido existente: sin inventario formal</div>
+      <p>El brief indica "no eliminar el contenido técnico existente" pero no hay un inventario de qué hay en Artículos ni en los métodos por sección. Sin inventario no se puede planificar la reorganización del Nivel 3.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Tensión 1 — Comercial como audiencia principal vs. tono actual</div>
+      <p>El tono actual es educativo/técnico. Comercial necesita un sitio que le ayude a vender, no a aprender. El cambio de tono es profundo: implica reescribir o contextualizar la mayor parte del contenido, no solo reorganizarlo.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Tensión 2 — Ampliar sin diluir la identidad UX</div>
+      <p>Si el sitio amplía demasiado el foco sin anclarlo bien, puede perder credibilidad técnica. Riesgo de quedar en tierra de nadie: ni suficientemente estratégico para Comercial, ni suficientemente técnico para quienes buscan profundidad.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Tensión 3 — Product Design como capacidad, no como etiqueta</div>
+      <p>El brief es explícito: "no reemplazar UX por Product Design". Pero el PDF de TransicionRoles muestra exactamente esa transición como narrativa. Si ese contenido aparece en el sitio, el mensaje puede contradecirse.</p>
+    </div>
+  </div>
+
+  <!-- 7. Preguntas abiertas -->
+  <div class="section">
+    <div class="sec-label">07 · Preguntas abiertas</div>
+    <h2>Para validar con el humano antes de avanzar</h2>
+    <div class="card-bordered">
+      <ol style="padding-left:18px;">
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Audiencia 3 (equipos internos):</strong> ¿cómo deben acceder al contenido técnico en la nueva arquitectura? ¿Existe un acceso directo a Nivel 3 o navegarán desde Nivel 1 igual que los externos?</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Versión en inglés:</strong> ¿hay clientes o prospectos internacionales que usen el sitio? ¿Se mantiene bilingüe en el reposicionamiento?</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Mobile:</strong> ¿Se incluye diseño mobile en el alcance de este proyecto? ¿Cuál es la experiencia actual desde mobile?</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Inventario de contenido:</strong> ¿Existe un inventario de las secciones y artículos actuales? ¿Alguien dentro de KI lo tiene? Esto es necesario para planificar la reorganización del Nivel 3.</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Éxito medible:</strong> ¿Cómo sabremos que el reposicionamiento funcionó? ¿Hay métricas actuales del sitio (visitas, tiempo, bounce, conversiones comerciales)?</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Figma:</strong> ¿Existe un archivo Figma del diseño actual del sitio? ¿Hay componentes o sistema de diseño documentado? ¿O es solo código?</li>
+        <li style="font-size:13px; margin-bottom:10px; line-height:1.5;"><strong>Plazos y fases:</strong> ¿El proyecto es un rediseño completo de una vez o se implementará por fases? ¿Hay fechas comprometidas con Comercial?</li>
+        <li style="font-size:13px; margin-bottom:0; line-height:1.5;"><strong>Aprobación:</strong> ¿Quién valida los cambios en el sitio dentro de KI? ¿Hay stakeholders adicionales al equipo con quien se tuvo la conversación del brief?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 8. Insumos disponibles -->
+  <div class="section">
+    <div class="sec-label">08 · Insumos para sesiones siguientes</div>
+    <h2>Mapa de insumos</h2>
+
+    <div class="table-wrapper" style="margin-bottom: 16px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Insumo</th>
+            <th>Formato</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>brief-reposicionamiento.md</td>
+            <td><span class="tag">.md</span></td>
+          </tr>
+          <tr>
+            <td>TransicionRoles.pdf</td>
+            <td><span class="tag">.pdf</span></td>
+          </tr>
+          <tr>
+            <td>Observación directa totalexperience.cl</td>
+            <td><span class="tag">notas</span></td>
+          </tr>
+          <tr>
+            <td>Estructura de nav actual (8 ítems)</td>
+            <td><span class="tag">Notas en este doc</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
